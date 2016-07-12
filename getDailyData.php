@@ -16,7 +16,7 @@
 
 	_execute($stmt);
 
-	$res = _res();
+	$res = _res($stmt);
 	
 	$__return[] = $res->fetch_assoc();
 
