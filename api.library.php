@@ -42,7 +42,7 @@
 		}
 	}
 
-	function _res() {
+	function _res($stmt) {
 		if (!($res = $stmt->get_result())) {
 		    _die("Getting result set failed: (" . $stmt->errno . ") " . $stmt->error);
 		}
