@@ -1,49 +1,26 @@
 <?php
+	
+	include_once('api.header.php');
 
-$config = parse_ini_file('././config.ini'); 
+	$sql = "SELECT q.label, q.answer FROM knowledge k 
+			LEFT JOIN installation i ON i.id = k.installation
+			LEFT JOIN question q ON q.id = k.question
+			WHERE i.deviceToken = ?
+			AND DATE(k.time) = CURRENT_DATE()";
 
-$return = [];
+	$stmt = _prepare($sql);
 
+	if (!$stmt->bind_param('s', $deviceToken)) {
+		_die("Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error);
+	}
 
-// Create connection
-$conn = mysqli_connect($config['servername'], $config['username'], $config['password'], $config['dbname']);
-// Check connection
-if($conn->connect_error) {
-  $this->last_error = 'Cannot connect to database. ' . $conn->connect_error;
-}
+	_execute($stmt);
 
+	$res = _res();
+	
+	$__return[] = $res->fetch_assoc();
 
-
-
-$sql = "SELECT Title, Subtitle 
-		FROM Notification n 
-		INNER JOIN NotificationLog nl ON n.idNotification = nl.idNotification
-		WHERE DATE(nl.ReceivedDate) = CURRENT_DATE()" ;
-$stmt = $conn->prepare($sql);
-$stmt->execute();
-
-$result = $stmt->get_result();
-
-//if we have some rows
-if ($result > 0) {
-    while($row = $result->fetch_assoc()) {
-
-  $return[] = [ 
-        'title'=> $row['Title'],
-        'subtitle'=> $row['Subtitle']
-    ];    
-}
-
-}
-else {
- echo "0 results";
-}
-
-
-echo json_encode($return);
-
-mysqli_close($conn);
-
+	include_once('api.footer.php');
 
 ?>
 

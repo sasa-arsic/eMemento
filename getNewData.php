@@ -4,7 +4,6 @@ $config = parse_ini_file('././config.ini');
 
 $return = [];
 
-
 // Create connection
 $conn = mysqli_connect($config['servername'], $config['username'], $config['password'], $config['dbname']);
 // Check connection
