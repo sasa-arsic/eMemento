@@ -10,15 +10,19 @@
 
 	$stmt = _prepare($sql);
 
-	if (!$stmt->bind_param('s', $deviceToken)) {
+	if (!$stmt->bind_param('s', $_GET['deviceToken'])) {
 		_die("Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error);
 	}
-
+	
 	_execute($stmt);
 
 	$res = _res($stmt);
-	
-	$__return[] = $res->fetch_assoc();
+
+	if ($res->num_rows > 0) {
+		while($row = $res->fetch_assoc())
+			$__return[] = $row;
+	}
+
 
 	include_once('api.footer.php');
 
