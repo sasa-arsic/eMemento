@@ -49,4 +49,28 @@
 		return $res;
 	}
 
+	function apns($deviceToken, $payload) {
+	    $pathCert = "/home/clients/1bf904378c1d733fa62ee6765697e6b5/web/users/sasa_arsic/web/Watch/Certificates/";
+	    $passphrase = 'Welcome2016';
+
+	    $ctx = stream_context_create();
+	    stream_context_set_option($ctx, 'ssl', 'local_cert', $pathCert . 'certif.pem');
+	    stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
+
+	    $fp = stream_socket_client('ssl://gateway.sandbox.push.apple.com:2195', $err, $errstr, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
+
+	    $body['aps'] = $payload;
+
+	    echo $payload = json_encode($body);
+
+	    $msg = chr(0) . pack('n', 32) . pack('H*', $deviceToken) . pack('n', strlen($payload)) . $payload;
+	    $result = fwrite($fp, $msg, strlen($msg));
+
+	    if (!$result)
+	        echo 'Message not delivered' . PHP_EOL;
+	    else
+	        echo 'Message successfully delivered '.$message. PHP_EOL;
+
+	    fclose($fp);
+	}
 ?>
