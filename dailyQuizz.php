@@ -71,12 +71,18 @@
 	}
 
 	foreach ($questions as $question) {
+
+		$a = array_slice($answersNotUsed, 0, 3);
+		$a[] = $question['answer'];
+		shuffle($a);
+
 		$__return['questions'][] = array(
 			'id' => $question['id'],
 			'question' => $question['label'],
 			'right_answer' => $question['answer'],
-			'wrong_answers' => array_slice($answersNotUsed, 0, 3)
+			'answers' => $a
 		);
+
 		shuffle($answersNotUsed);
 	}
 
