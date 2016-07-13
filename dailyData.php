@@ -6,11 +6,12 @@
 			LEFT JOIN installation i ON i.id = k.installation
 			LEFT JOIN question q ON q.id = k.question
 			WHERE i.deviceToken = ?
+			q.quizz = ?
 			AND DATE(k.time) = CURRENT_DATE()";
 
 	$stmt = _prepare($sql);
 
-	if (!$stmt->bind_param('s', $_GET['deviceToken'])) {
+	if (!$stmt->bind_param('si', $_GET['deviceToken'], $_GET['quizz'])) {
 		_die("Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error);
 	}
 	
