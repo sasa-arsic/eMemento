@@ -19,10 +19,13 @@
 	$res = _res($stmt);
 
 	if ($res->num_rows > 0) {
-		while($row = $res->fetch_assoc())
+		$__return = array();
+		while($row = $res->fetch_assoc()) {
 			$__return[] = $row;
+		}
 	}
 
+	$stmt -> close();
 
 	include_once('api.footer.php');
 
