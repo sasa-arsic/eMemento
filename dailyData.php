@@ -6,7 +6,7 @@
 			LEFT JOIN installation i ON i.id = k.installation
 			LEFT JOIN question q ON q.id = k.question
 			WHERE i.deviceToken = ?
-			q.quizz = ?
+			AND q.quizz = ?
 			AND DATE(k.time) = CURRENT_DATE()";
 
 	$stmt = _prepare($sql);
