@@ -33,12 +33,18 @@
 
             /*
             apns($_GET['deviceToken'], array(
-                'alert' => array(
-                    'body' => 'Body 1',
-                    'title' => 'Title 1'
+                'aps' => array(
+                    'alert' => array(
+                        'body' => 'Body 1',
+                        'title' => 'Title 1'
+                    ),
+                    'category' => 'basic',
+                    'sound' => 'default'
                 ),
-                'category' => 'basic',
-                'sound' => 'default'
+                'WatchKit Simulator Actions' => array(
+                    'title' => 'Open',
+                    'identifie' => 'openTraining'
+                )
             ));
             */
         }

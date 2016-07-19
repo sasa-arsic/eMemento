@@ -2,17 +2,13 @@
 	
 	include_once('api.header.php');
 
-	$sql = "SELECT q.label, q.answer FROM knowledge k 
-			LEFT JOIN installation i ON i.id = k.installation
-			LEFT JOIN question q ON q.id = k.question
-			WHERE i.deviceToken = ?
-			AND q.quizz = ?
-			ORDER BY time DESC
-			LIMIT 3";
+	$sql = "SELECT q.name FROM quizz q
+			LEFT JOIN installation i ON i.language = q.language
+			WHERE i.deviceToken = ?";
 
 	$stmt = _prepare($sql);
 
-	if (!$stmt->bind_param('si', $_GET['deviceToken'], $_GET['quizz'])) {
+	if (!$stmt->bind_param('s', $_GET['deviceToken'])) {
 		_die("Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error);
 	}
 	

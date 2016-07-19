@@ -1,10 +1,11 @@
 <?php
 	
+	
+
 	function _db_connect() {
+		global $_c;
 
-		$config = parse_ini_file('config.ini'); 
-
-		$link = mysqli_connect($config['servername'], $config['username'], $config['password'], $config['dbname']);
+		$link = mysqli_connect($_c['db_servername'], $_c['db_username'], $_c['db_password'], $_c['db_name']);
 		
 		if ($link -> connect_error) {
 			_die('Cannot connect to database. ' . $link -> connect_error);
@@ -50,16 +51,17 @@
 	}
 
 	function apns($deviceToken, $payload) {
-	    $pathCert = "/home/clients/1bf904378c1d733fa62ee6765697e6b5/web/users/sasa_arsic/web/Watch/Certificates/";
-	    $passphrase = 'Welcome2016';
-
+	    
+	    global $_c;
+	    
 	    $ctx = stream_context_create();
-	    stream_context_set_option($ctx, 'ssl', 'local_cert', $pathCert . 'certif.pem');
-	    stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
+	    stream_context_set_option($ctx, 'ssl', 'local_cert', $_c['apns_certificate']);
+	    stream_context_set_option($ctx, 'ssl', 'passphrase', $_c['apns_password']);
 
-	    $fp = stream_socket_client('ssl://gateway.sandbox.push.apple.com:2195', $err, $errstr, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
+	    $fp = stream_socket_client($_c['apns_server'], $err, $errstr, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
 
-	    $body['aps'] = $payload;
+	    $body = $payload;
+    ]
 
 	    echo $payload = json_encode($body);
 

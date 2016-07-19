@@ -1,0 +1,178 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE database SYSTEM "file:///System/Library/DTDs/CoreData.dtd">
+
+<database>
+    <databaseInfo>
+        <version>134481920</version>
+        <UUID>7C81F01B-7F05-4128-B215-F033F4C5BF01</UUID>
+        <nextObjectID>114</nextObjectID>
+        <metadata>
+            <plist version="1.0">
+                <dict>
+                    <key>NSPersistenceFrameworkVersion</key>
+                    <integer>641</integer>
+                    <key>NSStoreModelVersionHashes</key>
+                    <dict>
+                        <key>LMEnvironment</key>
+                        <data>
+		wh7gaVcwAwVVkE9Tw+70wsMIMdQ+Jo4SBtig40m91Yw=
+		</data>
+                        <key>LMEnvironmentVariable</key>
+                        <data>
+		hHCdQevDLYfrdM0/QNEGiWSHhmNvoh+4vxxg/A3QXMw=
+		</data>
+                        <key>LMEnvironmentVariableValue</key>
+                        <data>
+		my5hNPJ51oDCSa8EgdNxWAnRcDLcERUGjtuXnzhSxQ0=
+		</data>
+                        <key>LMKeyValue</key>
+                        <data>
+		bIXXbyYF2xAv2MXg8JTVFsslmMKuvsfnR86QdUcFkdM=
+		</data>
+                        <key>LMRequest</key>
+                        <data>
+		N69H9XINxPl0wW8fuBadsvokjnyj4GqLD2bPiCXvgM8=
+		</data>
+                        <key>LMRequestGroup</key>
+                        <data>
+		ptyuN+dtvB4llhGC64PJYI5PwHlE6qpl6SwAWX91nCk=
+		</data>
+                        <key>LMRequestTreeItem</key>
+                        <data>
+		ak+hYb/lDeG55U0kgGvU5ej7HUltUj0RTrX5z/izNrs=
+		</data>
+                    </dict>
+                    <key>NSStoreModelVersionHashesVersion</key>
+                    <integer>3</integer>
+                    <key>NSStoreModelVersionIdentifiers</key>
+                    <array>
+                        <string>LMDocumentVersion2</string>
+                    </array>
+                </dict>
+            </plist>
+        </metadata>
+    </databaseInfo>
+    <object type="LMREQUEST" id="z102">
+        <attribute name="uuid" type="string">E3EB38CB-19D6-4587-A58B-D83786CE5E0F</attribute>
+        <attribute name="url" type="string">[{"name":"com.luckymarmot.Paw.DynamicValue","data":"62706C6973743030D40102030405061D1E582476657273696F6E58246F626A65637473592461726368697665725424746F7012000186A0A507080D111855246E756C6CD2090A0B0C5F1013656E7669726F6E6D656E745661726961626C655624636C61737380028004D20A0E0F10594E532E737472696E6780035F102437393739384336392D314332362D343442312D393730392D303941354542374332343831D2121314155A24636C6173736E616D655824636C61737365735F100F4E534D757461626C65537472696E67A3141617584E53537472696E67584E534F626A656374D21213191A5F10214C4D456E7669726F6E6D656E745661726961626C6544796E616D696356616C7565A31B1C175F10214C4D456E7669726F6E6D656E745661726961626C6544796E616D696356616C75655E4C4D44796E616D696356616C75655F100F4E534B657965644172636869766572D11F2054726F6F74800100080011001A0023002D00320037003D00430048005E006500670069006E0078007A00A100A600B100BA00CC00D000D900E200E7010B010F0133014201540157015C000000000000020100000000000000210000000000000000000000000000015E"},"\\/deviceSettings?deviceToken=8bd8d38e71f87add4fca3e8f7d5ccb957b3967bf90427ab98b9671c0ac95c67d"]</attribute>
+        <attribute name="timeoutinterval" type="float">30</attribute>
+        <attribute name="redirectmethod" type="bool">0</attribute>
+        <attribute name="redirectauthorization" type="bool">0</attribute>
+        <attribute name="method" type="string">GET</attribute>
+        <attribute name="followredirects" type="bool">0</attribute>
+        <attribute name="body" type="string">[{"name":"com.luckymarmot.Paw.DynamicValue","data":"62706C6973743030D40102030405061D1E582476657273696F6E58246F626A65637473592461726368697665725424746F7012000186A0A507080D111855246E756C6CD2090A0B0C596B657956616C7565735624636C61737380028004D20E0A0F105A4E532E6F626A65637473A08003D2121314155A24636C6173736E616D655824636C61737365735E4E534D757461626C654172726179A3141617574E534172726179584E534F626A656374D21213191A5F101E4C4D426F6479466F726D4B657956616C756544796E616D696356616C7565A31B1C175F101E4C4D426F6479466F726D4B657956616C756544796E616D696356616C75655E4C4D44796E616D696356616C75655F100F4E534B657965644172636869766572D11F2054726F6F74800100080011001A0023002D00320037003D0043004800520059005B005D0062006D006E00700075008000890098009C00A400AD00B200D300D700F801070119011C01210000000000000201000000000000002100000000000000000000000000000123"}]</attribute>
+        <attribute name="order" type="int64">0</attribute>
+        <attribute name="name" type="string">deviceSettings</attribute>
+        <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM"></relationship>
+        <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z103"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z103">
+        <attribute name="value" type="string"></attribute>
+        <attribute name="order" type="int64">0</attribute>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z102"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z104">
+        <attribute name="value" type="string"></attribute>
+        <attribute name="order" type="int64">0</attribute>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z107"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z105">
+        <attribute name="value" type="string"></attribute>
+        <attribute name="order" type="int64">0</attribute>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z106"></relationship>
+    </object>
+    <object type="LMREQUEST" id="z106">
+        <attribute name="uuid" type="string">1CC16A92-F088-49C5-9BB8-6E4AC71FF56E</attribute>
+        <attribute name="url" type="string">[{"name":"com.luckymarmot.Paw.DynamicValue","data":"62706C6973743030D40102030405061D1E582476657273696F6E58246F626A65637473592461726368697665725424746F7012000186A0A507080D111855246E756C6CD2090A0B0C5F1013656E7669726F6E6D656E745661726961626C655624636C61737380028004D20A0E0F10594E532E737472696E6780035F102437393739384336392D314332362D343442312D393730392D303941354542374332343831D2121314155A24636C6173736E616D655824636C61737365735F100F4E534D757461626C65537472696E67A3141617584E53537472696E67584E534F626A656374D21213191A5F10214C4D456E7669726F6E6D656E745661726961626C6544796E616D696356616C7565A31B1C175F10214C4D456E7669726F6E6D656E745661726961626C6544796E616D696356616C75655E4C4D44796E616D696356616C75655F100F4E534B657965644172636869766572D11F2054726F6F74800100080011001A0023002D00320037003D00430048005E006500670069006E0078007A00A100A600B100BA00CC00D000D900E200E7010B010F0133014201540157015C000000000000020100000000000000210000000000000000000000000000015E"},"\\/deviceSettings"]</attribute>
+        <attribute name="timeoutinterval" type="float">30</attribute>
+        <attribute name="redirectmethod" type="bool">0</attribute>
+        <attribute name="redirectauthorization" type="bool">0</attribute>
+        <attribute name="method" type="string">POST</attribute>
+        <attribute name="followredirects" type="bool">0</attribute>
+        <attribute name="body" type="string">[{"name":"com.luckymarmot.Paw.DynamicValue","data":"62706C6973743030D40102030405063435582476657273696F6E58246F626A65637473592461726368697665725424746F7012000186A0AD07080D13191A1B1C23292A2B2F55246E756C6CD2090A0B0C596B657956616C7565735624636C6173738002800CD20E0A0F125A4E532E6F626A65637473A2101180038008800BD20E0A1418A315161780048005800680075B646576696365546F6B656E5F10403862643864333865373166383761646434666361336538663764356363623935376233393637626639303432376162393862393637316330616339356336376409D21D1E1F205A24636C6173736E616D655824636C6173736573574E534172726179A22122574E534172726179584E534F626A656374D20E0A2418A32526178009800A800680075F100F72656672657368496E74657276616C5132D21D1E2C2D5E4E534D757461626C654172726179A32C2E22574E534172726179D21D1E30315F101E4C4D426F6479466F726D4B657956616C756544796E616D696356616C7565A33233225F101E4C4D426F6479466F726D4B657956616C756544796E616D696356616C75655E4C4D44796E616D696356616C75655F100F4E534B657965644172636869766572D1363754726F6F74800100080011001A0023002D003200370045004B0050005A006100630065006A00750078007A007C007E008300870089008B008D008F009B00DE00DF00E400EF00F801000103010B01140119011D011F01210123012501370139013E014D01510159015E017F018301A401B301C501C801CD00000000000002010000000000000038000000000000000000000000000001CF"}]</attribute>
+        <attribute name="order" type="int64">1</attribute>
+        <attribute name="name" type="string">deviceSettings</attribute>
+        <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM"></relationship>
+        <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z105"></relationship>
+    </object>
+    <object type="LMREQUEST" id="z107">
+        <attribute name="uuid" type="string">5C4235E6-EED6-427F-AEB2-91F1268D29DC</attribute>
+        <attribute name="url" type="string">[{"name":"com.luckymarmot.Paw.DynamicValue","data":"62706C6973743030D40102030405061D1E582476657273696F6E58246F626A65637473592461726368697665725424746F7012000186A0A507080D111855246E756C6CD2090A0B0C5F1013656E7669726F6E6D656E745661726961626C655624636C61737380028004D20A0E0F10594E532E737472696E6780035F102437393739384336392D314332362D343442312D393730392D303941354542374332343831D2121314155A24636C6173736E616D655824636C61737365735F100F4E534D757461626C65537472696E67A3141617584E53537472696E67584E534F626A656374D21213191A5F10214C4D456E7669726F6E6D656E745661726961626C6544796E616D696356616C7565A31B1C175F10214C4D456E7669726F6E6D656E745661726961626C6544796E616D696356616C75655E4C4D44796E616D696356616C75655F100F4E534B657965644172636869766572D11F2054726F6F74800100080011001A0023002D00320037003D00430048005E006500670069006E0078007A00A100A600B100BA00CC00D000D900E200E7010B010F0133014201540157015C000000000000020100000000000000210000000000000000000000000000015E"},"\\/score.php"]</attribute>
+        <attribute name="timeoutinterval" type="float">30</attribute>
+        <attribute name="redirectmethod" type="bool">0</attribute>
+        <attribute name="redirectauthorization" type="bool">0</attribute>
+        <attribute name="method" type="string">POST</attribute>
+        <attribute name="followredirects" type="bool">0</attribute>
+        <attribute name="body" type="string">[{"name":"com.luckymarmot.Paw.DynamicValue","data":"62706C6973743030D40102030405063D3E582476657273696F6E58246F626A65637473592461726368697665725424746F7012000186A0AF101007080D141A1B1C1D242A2B2C3233343855246E756C6CD2090A0B0C596B657956616C7565735624636C6173738002800FD20E0A0F135A4E532E6F626A65637473A310111280038008800B800ED20E0A1519A316171880048005800680075B646576696365546F6B656E5F10403862643864333865373166383761646434666361336538663764356363623935376233393637626639303432376162393862393637316330616339356336376409D21E1F20215A24636C6173736E616D655824636C6173736573574E534172726179A22223574E534172726179584E534F626A656374D20E0A2519A32627188009800A80068007557175697A7A5132D20E0A2D19A32E2F18800C800D800680075573636F7265523235D21E1F35365E4E534D757461626C654172726179A3353723574E534172726179D21E1F393A5F101E4C4D426F6479466F726D4B657956616C756544796E616D696356616C7565A33B3C235F101E4C4D426F6479466F726D4B657956616C756544796E616D696356616C75655E4C4D44796E616D696356616C75655F100F4E534B657965644172636869766572D13F4054726F6F74800100080011001A0023002D00320037004A00500055005F00660068006A006F007A007E0080008200840086008B008F009100930095009700A300E600E700EC00F701000108010B0113011C0121012501270129012B012D01330135013A013E0140014201440146014C014F015401630167016F01740195019901BA01C901DB01DE01E300000000000002010000000000000041000000000000000000000000000001E5"}]</attribute>
+        <attribute name="order" type="int64">3</attribute>
+        <attribute name="name" type="string">score</attribute>
+        <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM"></relationship>
+        <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z104"></relationship>
+    </object>
+    <object type="LMENVIRONMENT" id="z108">
+        <attribute name="name" type="string">Default</attribute>
+        <relationship name="variablesvalues" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z111"></relationship>
+    </object>
+    <object type="LMENVIRONMENTVARIABLE" id="z109">
+        <attribute name="uuid" type="string">79798C69-1C26-44B1-9709-09A5EB7C2481</attribute>
+        <attribute name="name" type="string">url</attribute>
+        <relationship name="values" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z112 z111"></relationship>
+    </object>
+    <object type="LMREQUEST" id="z110">
+        <attribute name="uuid" type="string">CC781915-D029-4425-B5E0-87EC13AF925E</attribute>
+        <attribute name="url" type="string">[{"name":"com.luckymarmot.Paw.DynamicValue","data":"62706C6973743030D40102030405061D1E582476657273696F6E58246F626A65637473592461726368697665725424746F7012000186A0A507080D111855246E756C6CD2090A0B0C5F1013656E7669726F6E6D656E745661726961626C655624636C61737380028004D20A0E0F10594E532E737472696E6780035F102437393739384336392D314332362D343442312D393730392D303941354542374332343831D2121314155A24636C6173736E616D655824636C61737365735F100F4E534D757461626C65537472696E67A3141617584E53537472696E67584E534F626A656374D21213191A5F10214C4D456E7669726F6E6D656E745661726961626C6544796E616D696356616C7565A31B1C175F10214C4D456E7669726F6E6D656E745661726961626C6544796E616D696356616C75655E4C4D44796E616D696356616C75655F100F4E534B657965644172636869766572D11F2054726F6F74800100080011001A0023002D00320037003D00430048005E006500670069006E0078007A00A100A600B100BA00CC00D000D900E200E7010B010F0133014201540157015C000000000000020100000000000000210000000000000000000000000000015E"},"\\/score.php?deviceToken=8bd8d38e71f87add4fca3e8f7d5ccb957b3967bf90427ab98b9671c0ac95c67d\u2600quizz=1"]</attribute>
+        <attribute name="timeoutinterval" type="float">30</attribute>
+        <attribute name="redirectmethod" type="bool">0</attribute>
+        <attribute name="redirectauthorization" type="bool">0</attribute>
+        <attribute name="method" type="string">GET</attribute>
+        <attribute name="followredirects" type="bool">0</attribute>
+        <attribute name="body" type="string">[{"name":"com.luckymarmot.Paw.DynamicValue","data":"62706C6973743030D40102030405061516582476657273696F6E58246F626A65637473592461726368697665725424746F7012000186A0A307080D55246E756C6CD2090A0B0C596B657956616C7565735624636C61737380008002D20E0F10115A24636C6173736E616D655824636C61737365735F101E4C4D426F6479466F726D4B657956616C756544796E616D696356616C7565A31213145F101E4C4D426F6479466F726D4B657956616C756544796E616D696356616C75655E4C4D44796E616D696356616C7565584E534F626A6563745F100F4E534B657965644172636869766572D1171854726F6F74800108111A232D32373B41465057595B606B749599BAC9D2E4E7EC00000000000001010000000000000019000000000000000000000000000000EE"}]</attribute>
+        <attribute name="order" type="int64">2</attribute>
+        <attribute name="name" type="string">score</attribute>
+        <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM"></relationship>
+        <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z113"></relationship>
+    </object>
+    <object type="LMENVIRONMENTVARIABLEVALUE" id="z111">
+        <attribute name="value" type="string"></attribute>
+        <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z108"></relationship>
+        <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z109"></relationship>
+    </object>
+    <object type="LMENVIRONMENTVARIABLEVALUE" id="z112">
+        <attribute name="value" type="string">http://127.0.0.1/eMemento</attribute>
+        <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z114"></relationship>
+        <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z109"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z113">
+        <attribute name="value" type="string"></attribute>
+        <attribute name="order" type="int64">0</attribute>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z110"></relationship>
+    </object>
+    <object type="LMENVIRONMENT" id="z114">
+        <attribute name="name" type="string">DC iMac</attribute>
+        <relationship name="variablesvalues" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE" idrefs="z112"></relationship>
+    </object>
+</database>
