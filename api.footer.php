@@ -1,7 +1,9 @@
 <?php
 
 	if( $__return !== null ) {
-		die(json_encode($__return));
+		_output($__return);
+	} else {
+		header_status(204);
 	}
 
 	if( isset($__db_link) ) {

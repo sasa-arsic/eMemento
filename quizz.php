@@ -2,13 +2,15 @@
 	
 	include_once('api.header.php');
 
+    _requireFields('get', array('deviceToken'));
+
 	$sql = "SELECT q.name FROM quizz q
 			LEFT JOIN installation i ON i.language = q.language
 			WHERE i.deviceToken = ?";
 
 	$stmt = _prepare($sql);
 
-	if (!$stmt->bind_param('s', $_GET['deviceToken'])) {
+	if (!@$stmt->bind_param('s', $_GET['deviceToken'])) {
 		_die("Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error);
 	}
 	
