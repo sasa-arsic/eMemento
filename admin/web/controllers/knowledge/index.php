@@ -92,9 +92,9 @@ $app->match('/knowledge/list', function (Symfony\Component\HttpFoundation\Reques
 			    $rows[$row_key][$table_columns[$i]] = $findexternal_row['deviceToken'];
 			}
 			else if($table_columns[$i] == 'question_id'){
-			    $findexternal_sql = 'SELECT `id` FROM `question` WHERE `id` = ?';
+			    $findexternal_sql = 'SELECT `label` FROM `question` WHERE `id` = ?';
 			    $findexternal_row = $app['db']->fetchAssoc($findexternal_sql, array($row_sql[$table_columns[$i]]));
-			    $rows[$row_key][$table_columns[$i]] = $findexternal_row['id'];
+			    $rows[$row_key][$table_columns[$i]] = $findexternal_row['label'];
 			}
 			else{
 			    $rows[$row_key][$table_columns[$i]] = $row_sql[$table_columns[$i]];
@@ -208,10 +208,10 @@ $app->match('/knowledge/create', function () use ($app) {
 	}
 
 	$options = array();
-	$findexternal_sql = 'SELECT `id`, `id` FROM `question`';
+	$findexternal_sql = 'SELECT `id`, `label` FROM `question`';
 	$findexternal_rows = $app['db']->fetchAll($findexternal_sql, array());
 	foreach($findexternal_rows as $findexternal_row){
-	    $options[$findexternal_row['id']] = $findexternal_row['id'];
+	    $options[$findexternal_row['id']] = $findexternal_row['label'];
 	}
 	if(count($options) > 0){
 	    $form = $form->add('question_id', 'choice', array(
@@ -310,10 +310,10 @@ $app->match('/knowledge/edit/{id}', function ($id) use ($app) {
 	}
 
 	$options = array();
-	$findexternal_sql = 'SELECT `id`, `id` FROM `question`';
+	$findexternal_sql = 'SELECT `id`, `label` FROM `question`';
 	$findexternal_rows = $app['db']->fetchAll($findexternal_sql, array());
 	foreach($findexternal_rows as $findexternal_row){
-	    $options[$findexternal_row['id']] = $findexternal_row['id'];
+	    $options[$findexternal_row['id']] = $findexternal_row['label'];
 	}
 	if(count($options) > 0){
 	    $form = $form->add('question_id', 'choice', array(

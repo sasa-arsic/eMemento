@@ -85,9 +85,9 @@ $app->match('/installation/list', function (Symfony\Component\HttpFoundation\Req
         for($i = 0; $i < count($table_columns); $i++){
 
 			if($table_columns[$i] == 'language_id'){
-			    $findexternal_sql = 'SELECT `id` FROM `language` WHERE `id` = ?';
+			    $findexternal_sql = 'SELECT `label` FROM `language` WHERE `id` = ?';
 			    $findexternal_row = $app['db']->fetchAssoc($findexternal_sql, array($row_sql[$table_columns[$i]]));
-			    $rows[$row_key][$table_columns[$i]] = $findexternal_row['id'];
+			    $rows[$row_key][$table_columns[$i]] = $findexternal_row['label'];
 			}
 			else{
 			    $rows[$row_key][$table_columns[$i]] = $row_sql[$table_columns[$i]];
@@ -181,10 +181,10 @@ $app->match('/installation/create', function () use ($app) {
     $form = $app['form.factory']->createBuilder('form', $initial_data);
 
 	$options = array();
-	$findexternal_sql = 'SELECT `id`, `id` FROM `language`';
+	$findexternal_sql = 'SELECT `id`, `label` FROM `language`';
 	$findexternal_rows = $app['db']->fetchAll($findexternal_sql, array());
 	foreach($findexternal_rows as $findexternal_row){
-	    $options[$findexternal_row['id']] = $findexternal_row['id'];
+	    $options[$findexternal_row['id']] = $findexternal_row['label'];
 	}
 	if(count($options) > 0){
 	    $form = $form->add('language_id', 'choice', array(
@@ -264,10 +264,10 @@ $app->match('/installation/edit/{id}', function ($id) use ($app) {
     $form = $app['form.factory']->createBuilder('form', $initial_data);
 
 	$options = array();
-	$findexternal_sql = 'SELECT `id`, `id` FROM `language`';
+	$findexternal_sql = 'SELECT `id`, `label` FROM `language`';
 	$findexternal_rows = $app['db']->fetchAll($findexternal_sql, array());
 	foreach($findexternal_rows as $findexternal_row){
-	    $options[$findexternal_row['id']] = $findexternal_row['id'];
+	    $options[$findexternal_row['id']] = $findexternal_row['label'];
 	}
 	if(count($options) > 0){
 	    $form = $form->add('language_id', 'choice', array(

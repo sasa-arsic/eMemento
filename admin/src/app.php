@@ -52,6 +52,6 @@ $app['asset_path'] = 'http://cyberlearn-mobile-dev.ch/users/sasa_arsic/web/Watch
 $app['debug'] = true;
 	// array of REGEX column name to display for foreigner key insted of ID
 	// default used :'name','title','e?mail','username'
-$app['usr_search_names_foreigner_key'] = array('name', 'deviceToken');
+$app['usr_search_names_foreigner_key'] = array('label', 'deviceToken');
 
 return $app;
