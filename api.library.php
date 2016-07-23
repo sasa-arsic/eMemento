@@ -1,5 +1,6 @@
 <?php
-
+	
+	// Connection to the database
 	function _db_connect() {
 		global $_c;
 
@@ -13,16 +14,37 @@
 		return $link;
 	}
 
+	// Improved die() function to take in account the environement
+	// called when we have a problem server side
+	// returns a 500 status code
+	// $str 			Text to be display in development environments
 	function _die($str) {
+		// when we die, we automatically send an output
+		// for security purposes we display a generic message in production
+		// and output the real message in development
 		_output(array('error' => DVPT ? $str : MESSAGE_ERROR_STANDARD), 500);
 	}
 
+	// Generical output function for all our services
+	// $a 				content to output
+	// $code 			status code to send in the headers
+	//					by default returns a 200 status code
 	function _output($a, $code = 200) {
+		// nothing genius here...
+
+		// return the status code
 		header_status($code);
+
+		// set the content type to json
 		header('Content-Type: application/json');
+
+		// stop the script and return the content
 		die(json_encode($a));
 	}
 
+	// Alias for the mysqli prepare function
+	// Adds error handling by environment
+	// $query 			SQL query to prepare
 	function _prepare($query) {
 		global $__db_link;
 		if (!($stmt = @$__db_link->prepare($query))) {
@@ -32,6 +54,9 @@
 		return $stmt;
 	}
 
+	// Alias for the mysqli execute function
+	// Adds error handling by environment
+	// $stmt 			Statement to execute
 	function _execute($stmt) {
 		if (!@$stmt->execute()) {
 			$str = DVPT ? "Execute failed: (".$stmt->errno.") ".$stmt->error : MESSAGE_ERROR_STANDARD;
@@ -39,6 +64,9 @@
 		}
 	}
 
+	// Alias for the mysqli get_result function
+	// Adds error handling by environment
+	// $stmt 			Statement to execute
 	function _res($stmt) {
 		if (!($res = @$stmt->get_result())) {
 			$str = DVPT ? "Getting result set failed: (".$stmt->errno.") ".$stmt->error : MESSAGE_ERROR_STANDARD;
@@ -47,6 +75,12 @@
 		return $res;
 	}
 
+	// Security entry point to assest the minimal data needed for our services
+	// This function will return a 400 Bad Request status code to the client
+	// if a field is missing
+	// Adds error handling by environment
+	// $method 			HTTP method to check
+	// $fields 			Fields required
 	function _requireFields($method, $fields) {
 		foreach($fields as $k) {
 			if(($method == 'get' && !isset($_GET[$k])) or ($method == 'post' && !isset($_POST[$k]))) {
@@ -55,6 +89,11 @@
 		}
 	}
 
+	// Send Apple Push Noptification
+	// $deviceToken		Device token to whom we send the push
+	// $payload			Payload to be use. The payload as to be
+	//					iOS compatible. Check Apple documentation
+	//					for further information
 	function apns($deviceToken, $payload) {
 	    
 	    global $_c;
@@ -75,6 +114,8 @@
 	    fclose($fp);
 	}
 
+	// Sends the right text and status code to the client
+	// $statusCode 		HTTP Status code we want to trigger
 	function header_status($statusCode) {
 	    static $status_codes = null;
 

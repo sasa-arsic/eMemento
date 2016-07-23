@@ -1,5 +1,9 @@
-<?php
+<?php	
 	
+	// File called by the cron table
+	// This file will trigger a call on notificationQuizz 
+	// for each user of the application
+
 	include_once('api.header.php');
 
 	$stmt = _prepare("SELECT deviceToken FROM installation");
@@ -10,7 +14,8 @@
 
 	while($row = $res->fetch_assoc()) {
 		$url = $_c['server_url'] . '/notificationQuizz.php?deviceToken='.$row['deviceToken'];
-		print_r('exec '.$url."\r\n");
+		// For simplicity, we use file_get_contents
+		// Improvement to the curl library might be possible
 		$output = file_get_contents($url);
 	}
 

@@ -1,5 +1,5 @@
 <?php
-	
+
 	include_once('api.header.php');
 
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
