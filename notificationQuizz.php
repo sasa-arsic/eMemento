@@ -8,9 +8,9 @@
     $quizz = isset($_GET['quizz']) ? intval($_GET['quizz']) : 1;
 
     $stmt = _prepare("SELECT q.id, q.label, q.answer FROM knowledge k 
-        LEFT JOIN installation i ON i.id = k.installation
-        LEFT JOIN question q ON q.id = k.question
-        WHERE i.deviceToken = ? AND q.quizz = ? AND DATE(k.time) = CURRENT_DATE() AND k.trained = 1
+        LEFT JOIN installation i ON i.id = k.installation_id
+        LEFT JOIN question q ON q.id = k.question_id
+        WHERE i.deviceToken = ? AND q.quizz_id = ? AND DATE(k.time) = CURRENT_DATE() AND k.trained = 1
         ORDER BY rand() LIMIT ?");
 
     if (!@$stmt->bind_param('sii', $_GET['deviceToken'], $quizz, $max)) {

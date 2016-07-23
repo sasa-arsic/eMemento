@@ -9,7 +9,7 @@
 		$interval = isset($_POST['refreshInterval']) ? intval($_POST['refreshInterval']) : 1;
 		$language = isset($_POST['language']) ? $_POST['language'] : 'FR';
 
-		$stmt = _prepare("INSERT INTO installation (deviceToken, refreshInterval, language) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE refreshInterval = VALUES(refreshInterval)");
+		$stmt = _prepare("INSERT INTO installation (deviceToken, refreshInterval, language_id) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE refreshInterval = VALUES(refreshInterval)");
 		
 		if (!@$stmt->bind_param('sis', $_POST['deviceToken'], $interval, $language)) {
 			_die("Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error);

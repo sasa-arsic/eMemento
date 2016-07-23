@@ -23,9 +23,9 @@
         
         if($user['refreshInterval'] > 0) {
 
-            $stmt = _prepare("INSERT INTO knowledge (time, installation, question) 
+            $stmt = _prepare("INSERT INTO knowledge (time, installation_id, question_id) 
                 SELECT CURRENT_TIMESTAMP, ?, q.id FROM question q 
-                WHERE q.quizz = ? AND q.id NOT IN (SELECT k.question FROM knowledge k where k.installation = ?) 
+                WHERE q.quizz_id = ? AND q.id NOT IN (SELECT k.question_id FROM knowledge k where k.installation_id = ?) 
                 ORDER BY RAND() LIMIT ?");
 
             if (!@$stmt->bind_param('iiii', $user['id'], $quizz, $user['id'], $max)) {
@@ -39,8 +39,8 @@
             if($inserted > 0) {
                 
                 $stmt = _prepare("SELECT k.id, q.label, q.answer FROM knowledge k 
-                                LEFT JOIN question q ON q.id = k.question
-                                WHERE k.installation = ? AND q.quizz = ? 
+                                LEFT JOIN question q ON q.id = k.question_id
+                                WHERE k.installation_id = ? AND q.quizz_id = ? 
                                 ORDER BY time DESC LIMIT ?");
 
                 if (!@$stmt->bind_param('iii', $user['id'], $quizz, $max)) {

@@ -5,7 +5,7 @@
     _requireFields('get', array('deviceToken'));
 
 	$sql = "SELECT q.name FROM quizz q
-			LEFT JOIN installation i ON i.language = q.language
+			LEFT JOIN installation i ON i.language_id = q.language_id
 			WHERE i.deviceToken = ?";
 
 	$stmt = _prepare($sql);
