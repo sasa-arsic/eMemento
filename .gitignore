@@ -11,3 +11,5 @@ admin/console
 admin/gen/
 admin/vendor/
 admin/src/
+
+rest.paw
