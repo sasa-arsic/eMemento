@@ -35,7 +35,7 @@
         $total = count($questionsList) * 3; // 6 questions = 18 answers
         $queryIds = implode(',', $questionsIds);
 
-        $stmt = _prepare("SELECT q.answer FROM question q WHERE quizz = ? AND q.id NOT IN ($queryIds) LIMIT $total");
+        $stmt = _prepare("SELECT q.answer FROM question q WHERE quizz_id = ? AND q.id NOT IN ($queryIds) LIMIT $total");
 
         if (!@$stmt->bind_param('i', $quizz)) {
             _die("Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error);
