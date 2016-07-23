@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.8/phpunit.xsd"
-         backupGlobals="false"
-         colors="true"
-         bootstrap="../../vendor/autoload.php"
->
+<phpunit>
     <php>
-        <ini name="error_reporting" value="-1" />
-
         <var name="db_type" value="pdo_mysql"/>
         <var name="db_host" value="localhost" />
         <var name="db_username" value="travis" />
@@ -19,20 +12,21 @@
         <var name="tmpdb_host" value="localhost" />
         <var name="tmpdb_username" value="travis" />
         <var name="tmpdb_password" value="" />
+        <var name="tmpdb_name" value="doctrine_tests_tmp" />
         <var name="tmpdb_port" value="3306"/>
     </php>
 
     <testsuites>
         <testsuite name="Doctrine DBAL Test Suite">
-            <directory>../Doctrine/Tests/DBAL</directory>
+            <directory>./../Doctrine/Tests/DBAL</directory>
         </testsuite>
     </testsuites>
-
     <groups>
         <exclude>
             <group>performance</group>
             <group>locking_functional</group>
         </exclude>
     </groups>
+
 </phpunit>
 

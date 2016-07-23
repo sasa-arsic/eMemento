@@ -303,7 +303,7 @@ abstract class AbstractPostgreSqlPlatformTestCase extends AbstractPlatformTestCa
      * @dataProvider pgBooleanProvider
      *
      * @param string $databaseValue
-     * @param string $preparedStatementValue
+     * @param string $prepareStatementValue
      * @param integer $integerValue
      * @param boolean $booleanValue
      */
@@ -338,7 +338,7 @@ abstract class AbstractPostgreSqlPlatformTestCase extends AbstractPlatformTestCa
      * @dataProvider pgBooleanProvider
      *
      * @param string $databaseValue
-     * @param string $preparedStatementValue
+     * @param string $prepareStatementValue
      * @param integer $integerValue
      * @param boolean $booleanValue
      */
@@ -795,15 +795,6 @@ abstract class AbstractPostgreSqlPlatformTestCase extends AbstractPlatformTestCa
         return array(
             'ALTER INDEX idx_foo RENAME TO idx_foo_renamed',
         );
-    }
-
-    /**
-     * @group DBAL-1142
-     */
-    public function testInitializesTsvectorTypeMapping()
-    {
-        $this->assertTrue($this->_platform->hasDoctrineTypeMappingFor('tsvector'));
-        $this->assertEquals('text', $this->_platform->getDoctrineTypeMapping('tsvector'));
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace Doctrine\Tests\DBAL;
 
+require_once __DIR__ . '/../TestInit.php';
+
 class DriverManagerTest extends \Doctrine\Tests\DbalTestCase
 {
     /**
@@ -112,7 +114,7 @@ class DriverManagerTest extends \Doctrine\Tests\DbalTestCase
         $conn = \Doctrine\DBAL\DriverManager::getConnection($options);
         $this->assertInstanceOf('Doctrine\DBAL\Driver\PDOMySql\Driver', $conn->getDriver());
     }
-
+    
     /**
      * @dataProvider databaseUrls
      */
@@ -121,13 +123,13 @@ class DriverManagerTest extends \Doctrine\Tests\DbalTestCase
         $options = is_array($url) ? $url : array(
             'url' => $url,
         );
-
+        
         if ($expected === false) {
             $this->setExpectedException('Doctrine\DBAL\DBALException');
         }
-
+        
         $conn = \Doctrine\DBAL\DriverManager::getConnection($options);
-
+        
         $params = $conn->getParams();
         foreach ($expected as $key => $value) {
             if ($key == 'driver') {
@@ -137,7 +139,7 @@ class DriverManagerTest extends \Doctrine\Tests\DbalTestCase
             }
         }
     }
-
+    
     public function databaseUrls()
     {
         return array(

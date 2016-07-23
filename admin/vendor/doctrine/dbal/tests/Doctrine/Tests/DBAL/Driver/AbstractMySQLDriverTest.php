@@ -18,7 +18,7 @@ class AbstractMySQLDriverTest extends AbstractDriverTest
             'password' => 'bar',
         );
 
-        $statement = $this->createMock('Doctrine\Tests\Mocks\DriverResultStatementMock');
+        $statement = $this->getMock('Doctrine\Tests\Mocks\DriverResultStatementMock');
 
         $statement->expects($this->once())
             ->method('fetchColumn')
@@ -105,7 +105,6 @@ class AbstractMySQLDriverTest extends AbstractDriverTest
                 array('1171', null, null),
                 array('1252', null, null),
                 array('1263', null, null),
-                array('1364', null, null),
                 array('1566', null, null),
             ),
             self::EXCEPTION_SYNTAX_ERROR => array(
@@ -134,12 +133,6 @@ class AbstractMySQLDriverTest extends AbstractDriverTest
                 array('1557', null, null),
                 array('1569', null, null),
                 array('1586', null, null),
-            ),
-            self::EXCEPTION_DEADLOCK => array(
-                array('1213', null, null),
-            ),
-            self::EXCEPTION_LOCK_WAIT_TIMEOUT => array(
-                array('1205', null, null),
             ),
         );
     }

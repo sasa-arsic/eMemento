@@ -3,7 +3,7 @@ namespace Doctrine\Tests\DBAL\Functional\Driver\Mysqli;
 
 class ConnectionTest extends \Doctrine\Tests\DbalFunctionalTestCase
 {
-    protected function setUp()
+    public function setUp()
     {
         if (!extension_loaded('mysqli')) {
             $this->markTestSkipped('mysqli is not installed.');
@@ -16,7 +16,7 @@ class ConnectionTest extends \Doctrine\Tests\DbalFunctionalTestCase
         }
     }
 
-    protected function tearDown()
+    public function tearDown()
     {
         parent::tearDown();
     }

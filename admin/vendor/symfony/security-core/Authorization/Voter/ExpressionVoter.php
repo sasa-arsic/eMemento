@@ -52,17 +52,33 @@ class ExpressionVoter implements VoterInterface
     /**
      * {@inheritdoc}
      */
-    public function vote(TokenInterface $token, $subject, array $attributes)
+    public function supportsAttribute($attribute)
+    {
+        return $attribute instanceof Expression;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsClass($class)
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function vote(TokenInterface $token, $object, array $attributes)
     {
         $result = VoterInterface::ACCESS_ABSTAIN;
         $variables = null;
         foreach ($attributes as $attribute) {
-            if (!$attribute instanceof Expression) {
+            if (!$this->supportsAttribute($attribute)) {
                 continue;
             }
 
             if (null === $variables) {
-                $variables = $this->getVariables($token, $subject);
+                $variables = $this->getVariables($token, $object);
             }
 
             $result = VoterInterface::ACCESS_DENIED;
@@ -74,7 +90,7 @@ class ExpressionVoter implements VoterInterface
         return $result;
     }
 
-    private function getVariables(TokenInterface $token, $subject)
+    private function getVariables(TokenInterface $token, $object)
     {
         if (null !== $this->roleHierarchy) {
             $roles = $this->roleHierarchy->getReachableRoles($token->getRoles());
@@ -85,8 +101,8 @@ class ExpressionVoter implements VoterInterface
         $variables = array(
             'token' => $token,
             'user' => $token->getUser(),
-            'object' => $subject,
-            'subject' => $subject,
+            'object' => $object,
+            'subject' => $object,
             'roles' => array_map(function ($role) { return $role->getRole(); }, $roles),
             'trust_resolver' => $this->trustResolver,
         );
@@ -94,8 +110,8 @@ class ExpressionVoter implements VoterInterface
         // this is mainly to propose a better experience when the expression is used
         // in an access control rule, as the developer does not know that it's going
         // to be handled by this voter
-        if ($subject instanceof Request) {
-            $variables['request'] = $subject;
+        if ($object instanceof Request) {
+            $variables['request'] = $object;
         }
 
         return $variables;

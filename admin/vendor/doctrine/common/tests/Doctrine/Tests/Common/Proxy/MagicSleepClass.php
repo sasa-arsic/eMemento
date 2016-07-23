@@ -32,6 +32,6 @@ class MagicSleepClass
      */
     public function __sleep()
     {
-        return ['serializedField'];
+        return array('serializedField');
     }
 }

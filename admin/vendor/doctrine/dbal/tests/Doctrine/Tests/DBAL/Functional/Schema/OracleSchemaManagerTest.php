@@ -5,9 +5,11 @@ namespace Doctrine\Tests\DBAL\Functional\Schema;
 use Doctrine\DBAL\Schema;
 use Doctrine\Tests\TestUtil;
 
+require_once __DIR__ . '/../../../TestInit.php';
+
 class OracleSchemaManagerTest extends SchemaManagerFunctionalTestCase
 {
-    protected function setUp()
+    public function setUp()
     {
         parent::setUp();
 

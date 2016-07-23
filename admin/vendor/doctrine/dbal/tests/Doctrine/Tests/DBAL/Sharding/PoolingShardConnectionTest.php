@@ -73,7 +73,7 @@ class PoolingShardConnectionTest extends \PHPUnit_Framework_TestCase
         ));
     }
 
-    public function testNoShardsServersException()
+    public function testNoShardsServersExecption()
     {
         $this->setExpectedException('InvalidArgumentException', "Connection Parameters require 'global' and 'shards' configurations.");
 
@@ -85,7 +85,7 @@ class PoolingShardConnectionTest extends \PHPUnit_Framework_TestCase
         ));
     }
 
-    public function testNoShardsChoserException()
+    public function testNoShardsChoserExecption()
     {
         $this->setExpectedException('InvalidArgumentException', "Missing Shard Choser configuration 'shardChoser'");
 

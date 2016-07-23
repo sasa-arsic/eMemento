@@ -2,14 +2,16 @@
 
 namespace Doctrine\Tests\DBAL\Logging;
 
+require_once __DIR__ . '/../../TestInit.php';
+
 class DebugStackTest extends \Doctrine\Tests\DbalTestCase
 {
-    protected function setUp()
+    public function setUp()
     {
         $this->logger = new \Doctrine\DBAL\Logging\DebugStack();
     }
 
-    protected function tearDown()
+    public function tearDown()
     {
         unset($this->logger);
     }

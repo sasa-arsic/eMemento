@@ -103,7 +103,7 @@ Which is, again, identical to supplying ignored user/pass/authority::
 
     sqlite://notused:inthis@case//usr/local/var/db.sqlite
 
-To connect to an in-memory SQLite instance, use ``:memory:`` as the
+To connect to an in-memory SQLite instance, use ``:memory::`` as the
 database name::
 
     sqlite:///:memory:
@@ -250,19 +250,10 @@ pdo\_pgsql
 -  ``dbname`` (string): Name of the database/schema to connect to.
 -  ``charset`` (string): The charset used when connecting to the
    database.
--  ``default_dbname`` (string): Override the default database (postgres)
-   to connect to.
 -  ``sslmode`` (string): Determines whether or with what priority
    a SSL TCP/IP connection will be negotiated with the server.
    See the list of available modes:
    `http://www.postgresql.org/docs/9.1/static/libpq-connect.html#LIBPQ-CONNECT-SSLMODE`
--  ``sslrootcert`` (string): specifies the name of a file containing
-   SSL certificate authority (CA) certificate(s). If the file exists,
-   the server's certificate will be verified to be signed by one of these
-   authorities.
-   See http://www.postgresql.org/docs/9.0/static/libpq-connect.html#LIBPQ-CONNECT-SSLROOTCERT
--  ``application_name`` (string): Name of the application that is
-   connecting to database. Optional. It will be displayed at ``pg_stat_activity``.
 
 PostgreSQL behaves differently with regard to booleans when you use
 ``PDO::ATTR_EMULATE_PREPARES`` or not. To switch from using ``'true'``
@@ -294,12 +285,8 @@ pdo\_oci / oci8
    database.
 -  ``instancename`` (string): Optional parameter, complete whether to
    add the INSTANCE_NAME parameter in the connection. It is generally used
-   to connect to an Oracle RAC server to select the name of a particular instance.
--  ``connectstring`` (string): Complete Easy Connect connection descriptor,
-   see https://docs.oracle.com/database/121/NETAG/naming.htm. When using this option,
-   you will still need to provide the ``user`` and ``password`` parameters, but the other
-   parameters will no longer be used. Note that when using this parameter, the ``getHost``
-   and ``getPort`` methods from ``Doctrine\DBAL\Connection`` will no longer function as expected.
+   to connect to an Oracle RAC server to select the name of a particular instance.   
+
 
 pdo\_sqlsrv / sqlsrv
 ^^^^^^^^^^^^^^^^^^^^

@@ -23,7 +23,7 @@ abstract class AbstractPlatformTestCase extends \Doctrine\Tests\DbalTestCase
 
     abstract public function createPlatform();
 
-    protected function setUp()
+    public function setUp()
     {
         $this->_platform = $this->createPlatform();
     }
@@ -83,7 +83,7 @@ abstract class AbstractPlatformTestCase extends \Doctrine\Tests\DbalTestCase
         );
     }
 
-    public function testGetInvalidForeignKeyReferentialActionSQL()
+    public function testGetInvalidtForeignKeyReferentialActionSQL()
     {
         $this->setExpectedException('InvalidArgumentException');
         $this->_platform->getForeignKeyReferentialActionSQL('unknown');
@@ -318,9 +318,7 @@ abstract class AbstractPlatformTestCase extends \Doctrine\Tests\DbalTestCase
 
     public function testGetCreateTableSqlDispatchEvent()
     {
-        $listenerMock = $this->getMockBuilder('GetCreateTableSqlDispatchEvenListener')
-            ->setMethods(array('onSchemaCreateTable', 'onSchemaCreateTableColumn'))
-            ->getMock();
+        $listenerMock = $this->getMock('GetCreateTableSqlDispatchEvenListener', array('onSchemaCreateTable', 'onSchemaCreateTableColumn'));
         $listenerMock
             ->expects($this->once())
             ->method('onSchemaCreateTable');
@@ -342,9 +340,7 @@ abstract class AbstractPlatformTestCase extends \Doctrine\Tests\DbalTestCase
 
     public function testGetDropTableSqlDispatchEvent()
     {
-        $listenerMock = $this->getMockBuilder('GetDropTableSqlDispatchEventListener')
-            ->setMethods(array('onSchemaDropTable'))
-            ->getMock();
+        $listenerMock = $this->getMock('GetDropTableSqlDispatchEventListener', array('onSchemaDropTable'));
         $listenerMock
             ->expects($this->once())
             ->method('onSchemaDropTable');
@@ -367,9 +363,7 @@ abstract class AbstractPlatformTestCase extends \Doctrine\Tests\DbalTestCase
             'onSchemaAlterTableRenameColumn'
         );
 
-        $listenerMock = $this->getMockBuilder('GetAlterTableSqlDispatchEvenListener')
-            ->setMethods($events)
-            ->getMock();
+        $listenerMock = $this->getMock('GetAlterTableSqlDispatchEvenListener', $events);
         $listenerMock
             ->expects($this->once())
             ->method('onSchemaAlterTable');
@@ -1095,55 +1089,6 @@ abstract class AbstractPlatformTestCase extends \Doctrine\Tests\DbalTestCase
         );
     }
 
-    /**
-     * @group DBAL-1176
-     *
-     * @dataProvider getGeneratesInlineColumnCommentSQL
-     */
-    public function testGeneratesInlineColumnCommentSQL($comment, $expectedSql)
-    {
-        if (! $this->_platform->supportsInlineColumnComments()) {
-            $this->markTestSkipped(sprintf('%s does not support inline column comments.', get_class($this->_platform)));
-        }
-
-        $this->assertSame($expectedSql, $this->_platform->getInlineColumnCommentSQL($comment));
-    }
-
-    public function getGeneratesInlineColumnCommentSQL()
-    {
-        return array(
-            'regular comment' => array('Regular comment', $this->getInlineColumnRegularCommentSQL()),
-            'comment requiring escaping' => array(
-                sprintf(
-                    'Using inline comment delimiter %s works',
-                    $this->getInlineColumnCommentDelimiter()
-                ),
-                $this->getInlineColumnCommentRequiringEscapingSQL()
-            ),
-            'empty comment' => array('', $this->getInlineColumnEmptyCommentSQL()),
-        );
-    }
-
-    protected function getInlineColumnCommentDelimiter()
-    {
-        return "'";
-    }
-
-    protected function getInlineColumnRegularCommentSQL()
-    {
-        return "COMMENT 'Regular comment'";
-    }
-
-    protected function getInlineColumnCommentRequiringEscapingSQL()
-    {
-        return "COMMENT 'Using inline comment delimiter '' works'";
-    }
-
-    protected function getInlineColumnEmptyCommentSQL()
-    {
-        return "COMMENT ''";
-    }
-
     protected function getQuotedStringLiteralWithoutQuoteCharacter()
     {
         return "'No quote'";
@@ -1157,24 +1102,6 @@ abstract class AbstractPlatformTestCase extends \Doctrine\Tests\DbalTestCase
     protected function getQuotedStringLiteralQuoteCharacter()
     {
         return "''''";
-    }
-
-    /**
-     * @group DBAL-1176
-     */
-    public function testThrowsExceptionOnGeneratingInlineColumnCommentSQLIfUnsupported()
-    {
-        if ($this->_platform->supportsInlineColumnComments()) {
-            $this->markTestSkipped(sprintf('%s supports inline column comments.', get_class($this->_platform)));
-        }
-
-        $this->setExpectedException(
-            'Doctrine\DBAL\DBALException',
-            "Operation 'Doctrine\\DBAL\\Platforms\\AbstractPlatform::getInlineColumnCommentSQL' is not supported by platform.",
-            0
-        );
-
-        $this->_platform->getInlineColumnCommentSQL('unsupported');
     }
 
     public function testQuoteStringLiteral()
@@ -1338,54 +1265,4 @@ abstract class AbstractPlatformTestCase extends \Doctrine\Tests\DbalTestCase
      * @return array
      */
     abstract protected function getGeneratesAlterTableRenameIndexUsedByForeignKeySQL();
-
-    /**
-     * @group DBAL-1082
-     *
-     * @dataProvider getGeneratesDecimalTypeDeclarationSQL
-     */
-    public function testGeneratesDecimalTypeDeclarationSQL(array $column, $expectedSql)
-    {
-        $this->assertSame($expectedSql, $this->_platform->getDecimalTypeDeclarationSQL($column));
-    }
-
-    /**
-     * @return array
-     */
-    public function getGeneratesDecimalTypeDeclarationSQL()
-    {
-        return array(
-            array(array(), 'NUMERIC(10, 0)'),
-            array(array('unsigned' => true), 'NUMERIC(10, 0)'),
-            array(array('unsigned' => false), 'NUMERIC(10, 0)'),
-            array(array('precision' => 5), 'NUMERIC(5, 0)'),
-            array(array('scale' => 5), 'NUMERIC(10, 5)'),
-            array(array('precision' => 8, 'scale' => 2), 'NUMERIC(8, 2)'),
-        );
-    }
-
-    /**
-     * @group DBAL-1082
-     *
-     * @dataProvider getGeneratesFloatDeclarationSQL
-     */
-    public function testGeneratesFloatDeclarationSQL(array $column, $expectedSql)
-    {
-        $this->assertSame($expectedSql, $this->_platform->getFloatDeclarationSQL($column));
-    }
-
-    /**
-     * @return array
-     */
-    public function getGeneratesFloatDeclarationSQL()
-    {
-        return array(
-            array(array(), 'DOUBLE PRECISION'),
-            array(array('unsigned' => true), 'DOUBLE PRECISION'),
-            array(array('unsigned' => false), 'DOUBLE PRECISION'),
-            array(array('precision' => 5), 'DOUBLE PRECISION'),
-            array(array('scale' => 5), 'DOUBLE PRECISION'),
-            array(array('precision' => 8, 'scale' => 2), 'DOUBLE PRECISION'),
-        );
-    }
 }

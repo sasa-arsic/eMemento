@@ -107,6 +107,10 @@ class ClassLoaderTest extends \Doctrine\Tests\DoctrineTestCase
 
     public function testSupportsTraitAutoloading()
     {
+        if (! function_exists('trait_exists')) {
+            $this->markTestSkipped('You need a PHP version that supports traits in order to run this test');
+        }
+
         $classLoader = new ClassLoader();
         $classLoader->setIncludePath(__DIR__);
         $classLoader->setFileExtension('.class.php');

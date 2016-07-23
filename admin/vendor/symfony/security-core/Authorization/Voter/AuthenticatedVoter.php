@@ -44,13 +44,27 @@ class AuthenticatedVoter implements VoterInterface
     /**
      * {@inheritdoc}
      */
-    public function vote(TokenInterface $token, $subject, array $attributes)
+    public function supportsAttribute($attribute)
+    {
+        return null !== $attribute && (self::IS_AUTHENTICATED_FULLY === $attribute || self::IS_AUTHENTICATED_REMEMBERED === $attribute || self::IS_AUTHENTICATED_ANONYMOUSLY === $attribute);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsClass($class)
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function vote(TokenInterface $token, $object, array $attributes)
     {
         $result = VoterInterface::ACCESS_ABSTAIN;
         foreach ($attributes as $attribute) {
-            if (null === $attribute || (self::IS_AUTHENTICATED_FULLY !== $attribute
-                    && self::IS_AUTHENTICATED_REMEMBERED !== $attribute
-                    && self::IS_AUTHENTICATED_ANONYMOUSLY !== $attribute)) {
+            if (!$this->supportsAttribute($attribute)) {
                 continue;
             }
 

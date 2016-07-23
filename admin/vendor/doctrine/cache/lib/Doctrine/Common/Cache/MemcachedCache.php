@@ -80,18 +80,6 @@ class MemcachedCache extends CacheProvider
     /**
      * {@inheritdoc}
      */
-    protected function doSaveMultiple(array $keysAndValues, $lifetime = 0)
-    {
-        if ($lifetime > 30 * 24 * 3600) {
-            $lifetime = time() + $lifetime;
-        }
-
-        return $this->memcached->setMulti($keysAndValues, $lifetime);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function doContains($id)
     {
         return false !== $this->memcached->get($id)
@@ -135,12 +123,12 @@ class MemcachedCache extends CacheProvider
         $servers = $this->memcached->getServerList();
         $key     = $servers[0]['host'] . ':' . $servers[0]['port'];
         $stats   = $stats[$key];
-        return [
+        return array(
             Cache::STATS_HITS   => $stats['get_hits'],
             Cache::STATS_MISSES => $stats['get_misses'],
             Cache::STATS_UPTIME => $stats['uptime'],
             Cache::STATS_MEMORY_USAGE     => $stats['bytes'],
             Cache::STATS_MEMORY_AVAILABLE => $stats['limit_maxbytes'],
-        ];
+        );
     }
 }

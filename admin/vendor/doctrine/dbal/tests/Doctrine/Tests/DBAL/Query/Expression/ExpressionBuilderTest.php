@@ -5,6 +5,8 @@ namespace Doctrine\Tests\DBAL\Query\Expression;
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 
+require_once __DIR__ . '/../../../TestInit.php';
+
 /**
  * @group DBAL-12
  */
@@ -12,9 +14,9 @@ class ExpressionBuilderTest extends \Doctrine\Tests\DbalTestCase
 {
     protected $expr;
 
-    protected function setUp()
+    public function setUp()
     {
-        $conn = $this->createMock('Doctrine\DBAL\Connection');
+        $conn = $this->getMock('Doctrine\DBAL\Connection', array(), array(), '', false);
 
         $this->expr = new ExpressionBuilder($conn);
 

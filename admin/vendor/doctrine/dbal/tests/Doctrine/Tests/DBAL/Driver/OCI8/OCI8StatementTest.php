@@ -2,9 +2,11 @@
 
 namespace Doctrine\Tests\DBAL;
 
+require_once __DIR__ . '/../../../TestInit.php';
+
 class OCI8StatementTest extends \Doctrine\Tests\DbalTestCase
 {
-    protected function setUp()
+    public function setUp()
     {
         if (!extension_loaded('oci8')) {
             $this->markTestSkipped('oci8 is not installed.');
@@ -27,10 +29,9 @@ class OCI8StatementTest extends \Doctrine\Tests\DbalTestCase
      */
     public function testExecute(array $params)
     {
-        $statement = $this->getMockBuilder('\Doctrine\DBAL\Driver\OCI8\OCI8Statement')
-            ->setMethods(array('bindValue', 'errorInfo'))
-            ->disableOriginalConstructor()
-            ->getMock();
+        $statement = $this->getMock('\Doctrine\DBAL\Driver\OCI8\OCI8Statement',
+            array('bindValue', 'errorInfo'),
+            array(), '', false);
 
         $statement->expects($this->at(0))
             ->method('bindValue')
@@ -53,10 +54,7 @@ class OCI8StatementTest extends \Doctrine\Tests\DbalTestCase
 
         // can't pass to constructor since we don't have a real database handle,
         // but execute must check the connection for the executeMode
-        $conn = $this->getMockBuilder('\Doctrine\DBAL\Driver\OCI8\OCI8Connection')
-            ->setMethods(array('getExecuteMode'))
-            ->disableOriginalConstructor()
-            ->getMock();
+        $conn = $this->getMock('\Doctrine\DBAL\Driver\OCI8\OCI8Connection', array('getExecuteMode'), array(), '', false);
         $conn->expects($this->once())
             ->method('getExecuteMode');
 

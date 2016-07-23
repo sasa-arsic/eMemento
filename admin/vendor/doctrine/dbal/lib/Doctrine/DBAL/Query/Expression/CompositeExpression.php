@@ -115,7 +115,7 @@ class CompositeExpression implements \Countable
      */
     public function __toString()
     {
-        if ($this->count() === 1) {
+        if (count($this->parts) === 1) {
             return (string) $this->parts[0];
         }
 

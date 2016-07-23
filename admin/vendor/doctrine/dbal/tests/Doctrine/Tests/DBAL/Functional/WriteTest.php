@@ -6,7 +6,7 @@ use PDO;
 
 class WriteTest extends \Doctrine\Tests\DbalFunctionalTestCase
 {
-    protected function setUp()
+    public function setUp()
     {
         parent::setUp();
 
@@ -262,7 +262,7 @@ class WriteTest extends \Doctrine\Tests\DbalFunctionalTestCase
         $table->setPrimaryKey(array('id'));
 
         try {
-            $this->_conn->getSchemaManager()->dropTable($table->getQuotedName($platform));
+            $this->_conn->getSchemaManager()->dropTable($table);
         } catch(\Exception $e) { }
 
         foreach ($platform->getCreateTableSQL($table) as $sql) {

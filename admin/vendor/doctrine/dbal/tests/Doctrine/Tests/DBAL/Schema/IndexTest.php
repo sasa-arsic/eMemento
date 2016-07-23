@@ -2,6 +2,8 @@
 
 namespace Doctrine\Tests\DBAL\Schema;
 
+require_once __DIR__ . '/../../TestInit.php';
+
 use Doctrine\DBAL\Schema\Index;
 
 class IndexTest extends \PHPUnit_Framework_TestCase
@@ -39,7 +41,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     /**
      * @group DBAL-50
      */
-    public function testFulfilledByUnique()
+    public function testFullfilledByUnique()
     {
         $idx1 = $this->createIndex(true, false);
         $idx2 = $this->createIndex(true, false);
@@ -52,7 +54,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     /**
      * @group DBAL-50
      */
-    public function testFulfilledByPrimary()
+    public function testFullfilledByPrimary()
     {
         $idx1 = $this->createIndex(true, true);
         $idx2 = $this->createIndex(true, true);
@@ -65,7 +67,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     /**
      * @group DBAL-50
      */
-    public function testFulfilledByIndex()
+    public function testFullfilledByIndex()
     {
         $idx1 = $this->createIndex();
         $idx2 = $this->createIndex();
@@ -77,7 +79,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($idx1->isFullfilledBy($uniq));
     }
 
-    public function testFulfilledWithPartial()
+    public function testFullfilledWithPartial()
     {
         $without = new Index('without', array('col1', 'col2'), true, false, array(), array());
         $partial = new Index('partial', array('col1', 'col2'), true, false, array(), array('where' => 'col1 IS NULL'));

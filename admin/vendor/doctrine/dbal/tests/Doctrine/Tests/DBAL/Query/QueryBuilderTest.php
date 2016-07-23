@@ -5,6 +5,8 @@ namespace Doctrine\Tests\DBAL\Query;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 use Doctrine\DBAL\Query\QueryBuilder;
 
+require_once __DIR__ . '/../../TestInit.php';
+
 /**
  * @group DBAL-12
  */
@@ -12,9 +14,9 @@ class QueryBuilderTest extends \Doctrine\Tests\DbalTestCase
 {
     protected $conn;
 
-    protected function setUp()
+    public function setUp()
     {
-        $this->conn = $this->createMock('Doctrine\DBAL\Connection');
+        $this->conn = $this->getMock('Doctrine\DBAL\Connection', array(), array(), '', false);
 
         $expressionBuilder = new ExpressionBuilder($this->conn);
 

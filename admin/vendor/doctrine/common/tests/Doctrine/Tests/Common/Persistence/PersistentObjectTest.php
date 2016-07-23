@@ -2,13 +2,9 @@
 
 namespace Doctrine\Tests\Common\Persistence;
 
-use BadMethodCallException;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\PersistentObject;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\Common\Persistence\Mapping\ReflectionService;
-use InvalidArgumentException;
-use RuntimeException;
 
 /**
  * @group DDC-1448
@@ -22,7 +18,7 @@ class PersistentObjectTest extends \Doctrine\Tests\DoctrineTestCase
     public function setUp()
     {
         $this->cm = new TestObjectMetadata;
-        $this->om = $this->createMock(ObjectManager::class);
+        $this->om = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
         $this->om->expects($this->any())->method('getClassMetadata')
                  ->will($this->returnValue($this->cm));
         $this->object = new TestObject;
@@ -37,8 +33,8 @@ class PersistentObjectTest extends \Doctrine\Tests\DoctrineTestCase
 
     public function testNonMatchingObjectManager()
     {
-        $this->expectException(RuntimeException::class);
-        $om = $this->createMock(ObjectManager::class);
+        $this->setExpectedException('RuntimeException');
+        $om = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
         $this->object->injectObjectManager($om, $this->cm);
     }
 
@@ -60,19 +56,19 @@ class PersistentObjectTest extends \Doctrine\Tests\DoctrineTestCase
 
     public function testSetIdentifier()
     {
-        $this->expectException(BadMethodCallException::class);
+        $this->setExpectedException('BadMethodCallException');
         $this->object->setId(2);
     }
 
     public function testSetUnknownField()
     {
-        $this->expectException(BadMethodCallException::class);
+        $this->setExpectedException('BadMethodCallException');
         $this->object->setUnknown("test");
     }
 
     public function testGetUnknownField()
     {
-        $this->expectException(BadMethodCallException::class);
+        $this->setExpectedException('BadMethodCallException');
         $this->object->getUnknown();
     }
 
@@ -92,7 +88,7 @@ class PersistentObjectTest extends \Doctrine\Tests\DoctrineTestCase
     {
         $parent = new \stdClass();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException('InvalidArgumentException');
         $this->object->setParent($parent);
     }
 
@@ -120,7 +116,7 @@ class PersistentObjectTest extends \Doctrine\Tests\DoctrineTestCase
 
     public function testAddInvalidToManyAssociation()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException('InvalidArgumentException');
         $this->object->addChildren(new \stdClass());
     }
 
@@ -129,19 +125,19 @@ class PersistentObjectTest extends \Doctrine\Tests\DoctrineTestCase
         PersistentObject::setObjectManager(null);
         $child = new TestObject();
 
-        $this->expectException(RuntimeException::class);
+        $this->setExpectedException('RuntimeException');
         $child->setName("test");
     }
 
     public function testInvalidMethod()
     {
-        $this->expectException(BadMethodCallException::class);
+        $this->setExpectedException('BadMethodCallException');
         $this->object->asdf();
     }
 
     public function testAddInvalidCollection()
     {
-        $this->expectException(BadMethodCallException::class);
+        $this->setExpectedException('BadMethodCallException');
         $this->object->addAsdf(new \stdClass());
     }
 }
@@ -159,13 +155,13 @@ class TestObjectMetadata implements ClassMetadata
 
     public function getAssociationMappedByTargetField($assocName)
     {
-        $assoc = ['children' => 'parent'];
+        $assoc = array('children' => 'parent');
         return $assoc[$assocName];
     }
 
     public function getAssociationNames()
     {
-        return ['parent', 'children'];
+        return array('parent', 'children');
     }
 
     public function getAssociationTargetClass($assocName)
@@ -175,12 +171,12 @@ class TestObjectMetadata implements ClassMetadata
 
     public function getFieldNames()
     {
-        return ['id', 'name'];
+        return array('id', 'name');
     }
 
     public function getIdentifier()
     {
-        return ['id'];
+        return array('id');
     }
 
     public function getName()
@@ -195,18 +191,18 @@ class TestObjectMetadata implements ClassMetadata
 
     public function getTypeOfField($fieldName)
     {
-        $types = ['id' => 'integer', 'name' => 'string'];
+        $types = array('id' => 'integer', 'name' => 'string');
         return $types[$fieldName];
     }
 
     public function hasAssociation($fieldName)
     {
-        return in_array($fieldName, ['parent', 'children']);
+        return in_array($fieldName, array('parent', 'children'));
     }
 
     public function hasField($fieldName)
     {
-        return in_array($fieldName, ['id', 'name']);
+        return in_array($fieldName, array('id', 'name'));
     }
 
     public function isAssociationInverseSide($assocName)

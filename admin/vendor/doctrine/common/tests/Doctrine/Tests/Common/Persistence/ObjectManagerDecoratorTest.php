@@ -15,31 +15,28 @@ class NullObjectManagerDecorator extends ObjectManagerDecorator
 
 class ObjectManagerDecoratorTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ObjectManager
-     */
     private $wrapped;
     private $decorated;
 
     public function setUp()
     {
-        $this->wrapped   = $this->createMock(ObjectManager::class);
+        $this->wrapped = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
         $this->decorated = new NullObjectManagerDecorator($this->wrapped);
     }
 
     public function getMethodParameters()
     {
-        $class = new \ReflectionClass(ObjectManager::class);
+        $class = new \ReflectionClass('Doctrine\Common\Persistence\ObjectManager');
 
-        $methods = [];
+        $methods = array();
         foreach ($class->getMethods() as $method) {
             if ($method->getNumberOfRequiredParameters() === 0) {
-               $methods[] = [$method->getName(), []];
+               $methods[] = array($method->getName(), array());
             } elseif ($method->getNumberOfRequiredParameters() > 0) {
-                $methods[] = [$method->getName(), array_fill(0, $method->getNumberOfRequiredParameters(), 'req') ?: []];
+                $methods[] = array($method->getName(), array_fill(0, $method->getNumberOfRequiredParameters(), 'req') ?: array());
             }
             if ($method->getNumberOfParameters() != $method->getNumberOfRequiredParameters()) {
-                $methods[] = [$method->getName(), array_fill(0, $method->getNumberOfParameters(), 'all') ?: []];
+                $methods[] = array($method->getName(), array_fill(0, $method->getNumberOfParameters(), 'all') ?: array());
             }
         }
 
@@ -56,8 +53,8 @@ class ObjectManagerDecoratorTest extends \PHPUnit_Framework_TestCase
             ->method($method)
             ->will($this->returnValue('INNER VALUE FROM ' . $method));
 
-        call_user_func_array([$stub, 'with'], $parameters);
+        call_user_func_array(array($stub, 'with'), $parameters);
 
-        $this->assertSame('INNER VALUE FROM ' . $method, call_user_func_array([$this->decorated, $method], $parameters));
+        $this->assertSame('INNER VALUE FROM ' . $method, call_user_func_array(array($this->decorated, $method), $parameters));
     }
 }

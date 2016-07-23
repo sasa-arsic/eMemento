@@ -50,7 +50,7 @@ class PredisCacheTest extends CacheTest
      */
     public function testSetContainsFetchDelete($value)
     {
-        if ([] === $value) {
+        if (array() === $value) {
             $this->markTestIncomplete(
                 'Predis currently doesn\'t support saving empty array values. '
                 . 'See https://github.com/nrk/predis/issues/241'
@@ -67,7 +67,7 @@ class PredisCacheTest extends CacheTest
      */
     public function testUpdateExistingEntry($value)
     {
-        if ([] === $value) {
+        if (array() === $value) {
             $this->markTestIncomplete(
                 'Predis currently doesn\'t support saving empty array values. '
                 . 'See https://github.com/nrk/predis/issues/241'

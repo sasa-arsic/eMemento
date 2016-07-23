@@ -5,6 +5,8 @@ namespace Doctrine\Tests\DBAL\Types;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\Tests\DBAL\Mocks\MockPlatform;
 
+require_once __DIR__ . '/../../TestInit.php';
+
 class ArrayTest extends \Doctrine\Tests\DbalTestCase
 {
     protected
@@ -17,7 +19,7 @@ class ArrayTest extends \Doctrine\Tests\DbalTestCase
         $this->_type = Type::getType('array');
     }
 
-    protected function tearDown()
+    public function tearDown()
     {
         error_reporting(-1); // reactive all error levels
     }

@@ -2,6 +2,8 @@
 
 namespace Doctrine\Tests\DBAL\Schema\Platforms;
 
+require_once __DIR__ . '/../../../TestInit.php';
+
 use Doctrine\DBAL\Schema\Table;
 
 class MySQLSchemaTest extends \PHPUnit_Framework_TestCase
@@ -16,7 +18,7 @@ class MySQLSchemaTest extends \PHPUnit_Framework_TestCase
      */
     private $platform;
 
-    protected function setUp()
+    public function setUp()
     {
         $this->comparator = new \Doctrine\DBAL\Schema\Comparator;
         $this->platform = new \Doctrine\DBAL\Platforms\MySqlPlatform;

@@ -3,13 +3,9 @@
 namespace Doctrine\Tests\Common\Persistence;
 
 use Doctrine\Common\Persistence\AbstractManagerRegistry;
-use Doctrine\Common\Persistence\Mapping\ClassMetadata;
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectManagerAware;
 use Doctrine\Tests\Common\Persistence\Mapping\TestClassMetadataFactory;
 use Doctrine\Tests\DoctrineTestCase;
-use ReflectionException;
+use PHPUnit_Framework_TestCase;
 
 /**
  * @groups DCOM-270
@@ -29,29 +25,30 @@ class ManagerRegistryTest extends DoctrineTestCase
     {
         $this->mr = new TestManagerRegistry(
             'ORM',
-            ['default' => 'default_connection'],
-            ['default' => 'default_manager'],
+            array('default_connection'),
+            array('default_manager'),
             'default',
             'default',
-            ObjectManagerAware::class,
-            $this->getManagerFactory()
+            'Doctrine\Common\Persistence\ObjectManagerAware'
         );
     }
 
     public function testGetManagerForClass()
     {
-        $this->mr->getManagerForClass(TestObject::class);
+        $this->mr->getManagerForClass('Doctrine\Tests\Common\Persistence\TestObject');
     }
 
     public function testGetManagerForProxyInterface()
     {
-        $this->assertNull($this->mr->getManagerForClass(ObjectManagerAware::class));
+        $this->assertNull($this->mr->getManagerForClass('Doctrine\Common\Persistence\ObjectManagerAware'));
     }
 
     public function testGetManagerForInvalidClass()
     {
-        $this->expectException(ReflectionException::class);
-        $this->expectExceptionMessage('Class Doctrine\Tests\Common\Persistence\TestObjectInexistent does not exist');
+        $this->setExpectedException(
+            'ReflectionException',
+            'Class Doctrine\Tests\Common\Persistence\TestObjectInexistent does not exist'
+        );
 
         $this->mr->getManagerForClass('prefix:TestObjectInexistent');
     }
@@ -63,59 +60,39 @@ class ManagerRegistryTest extends DoctrineTestCase
 
     public function testGetManagerForInvalidAliasedClass()
     {
-        $this->expectException(ReflectionException::class);
-        $this->expectExceptionMessage('Class Doctrine\Tests\Common\Persistence\TestObject:Foo does not exist');
+        $this->setExpectedException(
+            'ReflectionException',
+            'Class Doctrine\Tests\Common\Persistence\TestObject:Foo does not exist'
+        );
 
         $this->mr->getManagerForClass('prefix:TestObject:Foo');
     }
+}
 
-    public function testResetManager()
+class TestManager extends PHPUnit_Framework_TestCase
+{
+    public function getMetadataFactory()
     {
-        $manager = $this->mr->getManager();
-        $newManager = $this->mr->resetManager();
+        $driver = $this->getMock('Doctrine\Common\Persistence\Mapping\Driver\MappingDriver');
+        $metadata = $this->getMock('Doctrine\Common\Persistence\Mapping\ClassMetadata');
 
-        $this->assertInstanceOf(ObjectManager::class, $newManager);
-        $this->assertNotSame($manager, $newManager);
-    }
-
-    private function getManagerFactory()
-    {
-        return function () {
-            $mock = $this->createMock(ObjectManager::class);
-            $driver = $this->createMock(MappingDriver::class);
-            $metadata = $this->createMock(ClassMetadata::class);
-            $mock->method('getMetadataFactory')->willReturn(new TestClassMetadataFactory($driver, $metadata));
-
-            return $mock;
-        };
+        return new TestClassMetadataFactory($driver, $metadata);
     }
 }
 
 class TestManagerRegistry extends AbstractManagerRegistry
 {
-    private $services;
-
-    private $managerFactory;
-
-    public function __construct($name, array $connections, array $managers, $defaultConnection, $defaultManager, $proxyInterfaceName, callable $managerFactory)
-    {
-        $this->managerFactory = $managerFactory;
-
-        parent::__construct($name, $connections, $managers, $defaultConnection, $defaultManager, $proxyInterfaceName);
-    }
-
     protected function getService($name)
     {
-        if (!isset($this->services[$name])) {
-            $this->services[$name] = call_user_func($this->managerFactory);
-        }
-
-        return $this->services[$name];
+        return new TestManager();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function resetService($name)
     {
-        unset($this->services[$name]);
+
     }
 
     public function getAliasNamespace($alias)

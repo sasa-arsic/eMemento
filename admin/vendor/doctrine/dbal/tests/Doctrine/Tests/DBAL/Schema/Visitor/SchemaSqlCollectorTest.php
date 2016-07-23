@@ -2,24 +2,27 @@
 
 namespace Doctrine\Tests\DBAL\Schema\Visitor;
 
+require_once __DIR__ . '/../../../TestInit.php';
+
 use Doctrine\DBAL\Schema\Schema;
 
 class SchemaSqlCollectorTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreateSchema()
     {
-        $platformMock = $this->getMockBuilder('Doctrine\DBAL\Platforms\MySqlPlatform')
-            ->setMethods(array('getCreateTableSql', 'getCreateSequenceSql', 'getCreateForeignKeySql'))
-            ->getMock();
+        $platformMock = $this->getMock(
+            'Doctrine\DBAL\Platforms\MySqlPlatform',
+            array('getCreateTableSql', 'getCreateSequenceSql', 'getCreateForeignKeySql')
+        );
         $platformMock->expects($this->exactly(2))
                      ->method('getCreateTableSql')
                      ->will($this->returnValue(array("foo")));
         $platformMock->expects($this->exactly(1))
                      ->method('getCreateSequenceSql')
-                     ->will($this->returnValue("bar"));
+                     ->will($this->returnValue(array("bar")));
         $platformMock->expects($this->exactly(1))
                      ->method('getCreateForeignKeySql')
-                     ->will($this->returnValue("baz"));
+                     ->will($this->returnValue(array("baz")));
 
         $schema = $this->createFixtureSchema();
 
@@ -30,9 +33,10 @@ class SchemaSqlCollectorTest extends \PHPUnit_Framework_TestCase
 
     public function testDropSchema()
     {
-        $platformMock = $this->getMockBuilder('Doctrine\DBAL\Platforms\MySqlPlatform')
-            ->setMethods(array('getDropTableSql', 'getDropSequenceSql', 'getDropForeignKeySql'))
-            ->getMock();
+        $platformMock = $this->getMock(
+            'Doctrine\DBAL\Platforms\MySqlPlatform',
+            array('getDropTableSql', 'getDropSequenceSql', 'getDropForeignKeySql')
+        );
         $platformMock->expects($this->exactly(2))
                      ->method('getDropTableSql')
                      ->will($this->returnValue("tbl"));

@@ -2,6 +2,7 @@
 
 namespace Doctrine\Tests\Common\Cache;
 
+use Doctrine\Common\Cache\ApcCache;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\ChainCache;
 
@@ -9,7 +10,7 @@ class ChainCacheTest extends CacheTest
 {
     protected function _getCacheDriver()
     {
-        return new ChainCache([new ArrayCache()]);
+        return new ChainCache(array(new ArrayCache()));
     }
 
     public function testLifetime()
@@ -32,7 +33,7 @@ class ChainCacheTest extends CacheTest
 
         $cache2->expects($this->never())->method('doFetch');
 
-        $chainCache = new ChainCache([$cache1, $cache2]);
+        $chainCache = new ChainCache(array($cache1, $cache2));
         $chainCache->save('id', 'bar');
 
         $this->assertEquals('bar', $chainCache->fetch('id'));
@@ -45,7 +46,7 @@ class ChainCacheTest extends CacheTest
 
         $cache2->save('bar', 'value');
 
-        $chainCache = new ChainCache([$cache1, $cache2]);
+        $chainCache = new ChainCache(array($cache1, $cache2));
 
         $this->assertFalse($cache1->contains('bar'));
 
@@ -60,7 +61,7 @@ class ChainCacheTest extends CacheTest
         $cache1 = new ArrayCache();
         $cache2 = new ArrayCache();
 
-        $chainCache = new ChainCache([$cache1, $cache2]);
+        $chainCache = new ChainCache(array($cache1, $cache2));
         $chainCache->setNamespace('bar');
 
         $this->assertEquals('bar', $cache1->getNamespace());
@@ -75,7 +76,7 @@ class ChainCacheTest extends CacheTest
         $cache1->expects($this->once())->method('doDelete');
         $cache2->expects($this->once())->method('doDelete');
 
-        $chainCache = new ChainCache([$cache1, $cache2]);
+        $chainCache = new ChainCache(array($cache1, $cache2));
         $chainCache->delete('bar');
     }
 
@@ -87,7 +88,7 @@ class ChainCacheTest extends CacheTest
         $cache1->expects($this->once())->method('doFlush');
         $cache2->expects($this->once())->method('doFlush');
 
-        $chainCache = new ChainCache([$cache1, $cache2]);
+        $chainCache = new ChainCache(array($cache1, $cache2));
         $chainCache->flushAll();
     }
 

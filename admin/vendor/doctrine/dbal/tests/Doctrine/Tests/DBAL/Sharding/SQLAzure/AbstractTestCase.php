@@ -11,7 +11,7 @@ abstract class AbstractTestCase extends \PHPUnit_Framework_TestCase
     protected $conn;
     protected $sm;
 
-    protected function setUp()
+    public function setUp()
     {
         if (!isset($GLOBALS['db_type']) || strpos($GLOBALS['db_type'], "sqlsrv") === false) {
             $this->markTestSkipped('No driver or sqlserver driver specified.');

@@ -56,7 +56,7 @@ class ExceptionTest extends \Doctrine\Tests\DbalFunctionalTestCase
         }
     }
 
-    public function testForeignKeyConstraintViolationExceptionOnInsert()
+    public function testForeignKeyContraintViolationExceptionOnInsert()
     {
         if ( ! $this->_conn->getDatabasePlatform()->supportsForeignKeyConstraints()) {
             $this->markTestSkipped("Only fails on platforms with foreign key constraints.");
@@ -90,7 +90,7 @@ class ExceptionTest extends \Doctrine\Tests\DbalFunctionalTestCase
         $this->tearDownForeignKeyConstraintViolationExceptionTest();
     }
 
-    public function testForeignKeyConstraintViolationExceptionOnUpdate()
+    public function testForeignKeyContraintViolationExceptionOnUpdate()
     {
         if ( ! $this->_conn->getDatabasePlatform()->supportsForeignKeyConstraints()) {
             $this->markTestSkipped("Only fails on platforms with foreign key constraints.");
@@ -124,7 +124,7 @@ class ExceptionTest extends \Doctrine\Tests\DbalFunctionalTestCase
         $this->tearDownForeignKeyConstraintViolationExceptionTest();
     }
 
-    public function testForeignKeyConstraintViolationExceptionOnDelete()
+    public function testForeignKeyContraintViolationExceptionOnDelete()
     {
         if ( ! $this->_conn->getDatabasePlatform()->supportsForeignKeyConstraints()) {
             $this->markTestSkipped("Only fails on platforms with foreign key constraints.");
@@ -158,7 +158,7 @@ class ExceptionTest extends \Doctrine\Tests\DbalFunctionalTestCase
         $this->tearDownForeignKeyConstraintViolationExceptionTest();
     }
 
-    public function testForeignKeyConstraintViolationExceptionOnTruncate()
+    public function testForeignKeyContraintViolationExceptionOnTruncate()
     {
         $platform = $this->_conn->getDatabasePlatform();
 
@@ -286,10 +286,9 @@ class ExceptionTest extends \Doctrine\Tests\DbalFunctionalTestCase
             $this->markTestSkipped("Only fails this way on sqlite");
         }
 
-        $filename = sprintf('%s/%s', sys_get_temp_dir(), 'doctrine_failed_connection_'.$mode.'.db');
+        $filename = sprintf('%s/%s', sys_get_temp_dir(), 'doctrine_failed_connection.db');
 
         if (file_exists($filename)) {
-            chmod($filename, 0200); // make the file writable again, so it can be removed on Windows
             unlink($filename);
         }
 
@@ -315,8 +314,7 @@ class ExceptionTest extends \Doctrine\Tests\DbalFunctionalTestCase
     public function getSqLiteOpenConnection()
     {
         return array(
-            // mode 0 is considered read-only on Windows
-            array(0000, defined('PHP_WINDOWS_VERSION_BUILD') ? '\Doctrine\DBAL\Exception\ReadOnlyException' : '\Doctrine\DBAL\Exception\ConnectionException'),
+            array(0000, '\Doctrine\DBAL\Exception\ConnectionException'),
             array(0444, '\Doctrine\DBAL\Exception\ReadOnlyException'),
         );
     }

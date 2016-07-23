@@ -49,12 +49,6 @@ class MySqlPlatform extends AbstractPlatform
     /**
      * Adds MySQL-specific LIMIT clause to the query
      * 18446744073709551615 is 2^64-1 maximum of unsigned BIGINT the biggest limit possible
-     *
-     * @param string  $query
-     * @param integer $limit
-     * @param integer $offset
-     *
-     * @return string
      */
     protected function doModifyLimitQuery($query, $limit, $offset)
     {
@@ -362,9 +356,6 @@ class MySqlPlatform extends AbstractPlatform
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getListTablesSQL()
     {
         return "SHOW FULL TABLES WHERE Table_type = 'BASE TABLE'";
@@ -866,34 +857,6 @@ class MySqlPlatform extends AbstractPlatform
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getFloatDeclarationSQL(array $field)
-    {
-        return 'DOUBLE PRECISION' . $this->getUnsignedDeclaration($field);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDecimalTypeDeclarationSQL(array $columnDef)
-    {
-        return parent::getDecimalTypeDeclarationSQL($columnDef) . $this->getUnsignedDeclaration($columnDef);
-    }
-
-    /**
-     * Get unsigned declaration for a column.
-     *
-     * @param array $columnDef
-     *
-     * @return string
-     */
-    private function getUnsignedDeclaration(array $columnDef)
-    {
-        return ! empty($columnDef['unsigned']) ? ' UNSIGNED' : '';
-    }
-
-    /**
      * {@inheritDoc}
      */
     protected function _getCommonIntegerTypeDeclarationSQL(array $columnDef)
@@ -902,8 +865,9 @@ class MySqlPlatform extends AbstractPlatform
         if ( ! empty($columnDef['autoincrement'])) {
             $autoinc = ' AUTO_INCREMENT';
         }
+        $unsigned = (isset($columnDef['unsigned']) && $columnDef['unsigned']) ? ' UNSIGNED' : '';
 
-        return $this->getUnsignedDeclaration($columnDef) . $autoinc;
+        return $unsigned . $autoinc;
     }
 
     /**
@@ -1056,7 +1020,7 @@ class MySqlPlatform extends AbstractPlatform
         if ($table instanceof Table) {
             $table = $table->getQuotedName($this);
         } elseif (!is_string($table)) {
-            throw new \InvalidArgumentException('getDropTemporaryTableSQL() expects $table parameter to be string or \Doctrine\DBAL\Schema\Table.');
+            throw new \InvalidArgumentException('getDropTableSQL() expects $table parameter to be string or \Doctrine\DBAL\Schema\Table.');
         }
 
         return 'DROP TEMPORARY TABLE ' . $table;

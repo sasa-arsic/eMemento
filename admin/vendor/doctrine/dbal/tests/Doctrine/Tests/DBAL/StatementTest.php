@@ -3,7 +3,6 @@
 namespace Doctrine\Tests\DBAL;
 
 use Doctrine\DBAL\Statement;
-use Doctrine\DBAL\Logging\SQLLogger;
 
 class StatementTest extends \Doctrine\Tests\DbalTestCase
 {
@@ -24,32 +23,28 @@ class StatementTest extends \Doctrine\Tests\DbalTestCase
      */
     private $pdoStatement;
 
-    protected function setUp()
+    public function setUp()
     {
-        $this->pdoStatement = $this->getMockBuilder('\PDOStatement')
-            ->setMethods(array('execute', 'bindParam', 'bindValue'))
-            ->getMock();
+        $this->pdoStatement = $this->getMock('\PDOStatement', array('execute', 'bindParam', 'bindValue'));
         $platform = new \Doctrine\Tests\DBAL\Mocks\MockPlatform();
-        $driverConnection = $this->createMock('\Doctrine\DBAL\Driver\Connection');
+        $driverConnection = $this->getMock('\Doctrine\DBAL\Driver\Connection');
         $driverConnection->expects($this->any())
                 ->method('prepare')
                 ->will($this->returnValue($this->pdoStatement));
 
-        $driver = $this->createMock('\Doctrine\DBAL\Driver');
+        $driver = $this->getMock('\Doctrine\DBAL\Driver');
         $constructorArgs = array(
             array(
                 'platform' => $platform
             ),
             $driver
         );
-        $this->conn = $this->getMockBuilder('\Doctrine\DBAL\Connection')
-            ->setConstructorArgs($constructorArgs)
-            ->getMock();
+        $this->conn = $this->getMock('\Doctrine\DBAL\Connection', array(), $constructorArgs);
         $this->conn->expects($this->atLeastOnce())
                 ->method('getWrappedConnection')
                 ->will($this->returnValue($driverConnection));
 
-        $this->configuration = $this->createMock('\Doctrine\DBAL\Configuration');
+        $this->configuration = $this->getMock('\Doctrine\DBAL\Configuration');
         $this->conn->expects($this->any())
                 ->method('getConfiguration')
                 ->will($this->returnValue($this->configuration));
@@ -69,7 +64,7 @@ class StatementTest extends \Doctrine\Tests\DbalTestCase
         $types = array($name => $type);
         $sql = '';
 
-        $logger = $this->createMock('\Doctrine\DBAL\Logging\SQLLogger');
+        $logger = $this->getMock('\Doctrine\DBAL\Logging\SQLLogger');
         $logger->expects($this->once())
                 ->method('startQuery')
                 ->with($this->equalTo($sql), $this->equalTo($values), $this->equalTo($types));
@@ -91,7 +86,7 @@ class StatementTest extends \Doctrine\Tests\DbalTestCase
         $types = array();
         $sql = '';
 
-        $logger = $this->createMock('\Doctrine\DBAL\Logging\SQLLogger');
+        $logger = $this->getMock('\Doctrine\DBAL\Logging\SQLLogger');
         $logger->expects($this->once())
                 ->method('startQuery')
                 ->with($this->equalTo($sql), $this->equalTo($values), $this->equalTo($types));
@@ -108,14 +103,14 @@ class StatementTest extends \Doctrine\Tests\DbalTestCase
     {
         $name = 'foo';
         $var = 'bar';
-        $values = [$name => $var];
-        $types = [$name => \PDO::PARAM_STR];
+        $values = array($name => $var);
+        $types = array($name => \PDO::PARAM_STR);
         $sql = '';
 
-        $logger = $this->createMock(SQLLogger::class);
-        $logger->expects(self::once())
+        $logger = $this->getMock('Doctrine\DBAL\Logging\SQLLogger');
+        $logger->expects($this->once())
                 ->method('startQuery')
-                ->with(self::equalTo($sql), self::equalTo($values), self::equalTo($types));
+                ->with($this->equalTo($sql), $this->equalTo($values), $this->equalTo($types));
 
         $this->configuration->expects(self::once())
                 ->method('getSQLLogger')
@@ -131,7 +126,7 @@ class StatementTest extends \Doctrine\Tests\DbalTestCase
      */
     public function testExecuteCallsLoggerStopQueryOnException()
     {
-        $logger = $this->createMock('\Doctrine\DBAL\Logging\SQLLogger');
+        $logger = $this->getMock('\Doctrine\DBAL\Logging\SQLLogger');
 
         $this->configuration->expects($this->once())
             ->method('getSQLLogger')

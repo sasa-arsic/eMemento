@@ -5,6 +5,8 @@ namespace Doctrine\Tests\DBAL\Functional\Schema;
 use Doctrine\DBAL\Schema;
 use Doctrine\DBAL\Types\Type;
 
+require_once __DIR__ . '/../../../TestInit.php';
+
 class SqliteSchemaManagerTest extends SchemaManagerFunctionalTestCase
 {
     /**
@@ -136,10 +138,6 @@ EOS
 
     public function testNonDefaultPKOrder()
     {
-        if ( ! extension_loaded('sqlite3')) {
-            $this->markTestSkipped('This test requires the SQLite3 extension.');
-        }
-
         $version = \SQLite3::version();
         if(version_compare($version['versionString'], '3.7.16', '<')) {
             $this->markTestSkipped('This version of sqlite doesn\'t return the order of the Primary Key.');

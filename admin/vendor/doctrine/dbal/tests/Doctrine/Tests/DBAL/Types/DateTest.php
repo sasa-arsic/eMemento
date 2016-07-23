@@ -3,31 +3,48 @@
 namespace Doctrine\Tests\DBAL\Types;
 
 use Doctrine\DBAL\Types\Type;
+use Doctrine\Tests\DBAL\Mocks\MockPlatform;
 
-class DateTest extends BaseDateTypeTestCase
+require_once __DIR__ . '/../../TestInit.php';
+
+class DateTest extends \Doctrine\Tests\DbalTestCase
 {
-    /**
-     * {@inheritDoc}
-     */
+    protected
+        $_platform,
+        $_type,
+        $_tz;
+
     protected function setUp()
     {
-        $this->type = Type::getType('date');
+        $this->_platform = new MockPlatform();
+        $this->_type = Type::getType('date');
+        $this->_tz = date_default_timezone_get();
+    }
 
-        parent::setUp();
+    public function tearDown()
+    {
+        date_default_timezone_set($this->_tz);
+    }
+
+    public function testDateConvertsToDatabaseValue()
+    {
+        $this->assertTrue(
+            is_string($this->_type->convertToDatabaseValue(new \DateTime(), $this->_platform))
+        );
     }
 
     public function testDateConvertsToPHPValue()
     {
         // Birthday of jwage and also birthday of Doctrine. Send him a present ;)
         $this->assertTrue(
-            $this->type->convertToPHPValue('1985-09-01', $this->platform)
+            $this->_type->convertToPHPValue('1985-09-01', $this->_platform)
             instanceof \DateTime
         );
     }
 
     public function testDateResetsNonDatePartsToZeroUnixTimeValues()
     {
-        $date = $this->type->convertToPHPValue('1985-09-01', $this->platform);
+        $date = $this->_type->convertToPHPValue('1985-09-01', $this->_platform);
 
         $this->assertEquals('00:00:00', $date->format('H:i:s'));
     }
@@ -36,11 +53,11 @@ class DateTest extends BaseDateTypeTestCase
     {
         date_default_timezone_set('Europe/Berlin');
 
-        $date = $this->type->convertToPHPValue('2009-08-01', $this->platform);
+        $date = $this->_type->convertToPHPValue('2009-08-01', $this->_platform);
         $this->assertEquals('00:00:00', $date->format('H:i:s'));
         $this->assertEquals('2009-08-01', $date->format('Y-m-d'));
 
-        $date = $this->type->convertToPHPValue('2009-11-01', $this->platform);
+        $date = $this->_type->convertToPHPValue('2009-11-01', $this->_platform);
         $this->assertEquals('00:00:00', $date->format('H:i:s'));
         $this->assertEquals('2009-11-01', $date->format('Y-m-d'));
     }
@@ -48,6 +65,17 @@ class DateTest extends BaseDateTypeTestCase
     public function testInvalidDateFormatConversion()
     {
         $this->setExpectedException('Doctrine\DBAL\Types\ConversionException');
-        $this->type->convertToPHPValue('abcdefg', $this->platform);
+        $this->_type->convertToPHPValue('abcdefg', $this->_platform);
+    }
+
+    public function testNullConversion()
+    {
+        $this->assertNull($this->_type->convertToPHPValue(null, $this->_platform));
+    }
+
+    public function testConvertDateTimeToPHPValue()
+    {
+        $date = new \DateTime("now");
+        $this->assertSame($date, $this->_type->convertToPHPValue($date, $this->_platform));
     }
 }

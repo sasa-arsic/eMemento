@@ -19,8 +19,7 @@
 
 namespace Doctrine\DBAL;
 
-use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Driver;
+use Doctrine\DBAL\Driver\DriverException;
 use Doctrine\DBAL\Driver\ExceptionConverterDriver;
 
 class DBALException extends \Exception
@@ -113,7 +112,11 @@ class DBALException extends \Exception
         }
         $msg .= ":\n\n".$driverEx->getMessage();
 
-        return static::wrapException($driver, $driverEx, $msg);
+        if ($driver instanceof ExceptionConverterDriver && $driverEx instanceof DriverException) {
+            return $driver->convertException($msg, $driverEx);
+        }
+
+        return new self($msg, 0, $driverEx);
     }
 
     /**
@@ -124,21 +127,9 @@ class DBALException extends \Exception
      */
     public static function driverException(Driver $driver, \Exception $driverEx)
     {
-        return static::wrapException($driver, $driverEx, "An exception occurred in driver: " . $driverEx->getMessage());
-    }
+        $msg = "An exception occured in driver: " . $driverEx->getMessage();
 
-    /**
-     * @param \Doctrine\DBAL\Driver     $driver
-     * @param \Exception $driverEx
-     *
-     * @return \Doctrine\DBAL\DBALException
-     */
-    private static function wrapException(Driver $driver, \Exception $driverEx, $msg)
-    {
-        if ($driverEx instanceof Exception\DriverException) {
-            return $driverEx;
-        }
-        if ($driver instanceof ExceptionConverterDriver && $driverEx instanceof Driver\DriverException) {
+        if ($driver instanceof ExceptionConverterDriver && $driverEx instanceof DriverException) {
             return $driver->convertException($msg, $driverEx);
         }
 
@@ -214,7 +205,7 @@ class DBALException extends \Exception
      */
     public static function limitOffsetInvalid()
     {
-        return new self("Invalid Offset in Limit Query, it has to be larger than or equal to 0.");
+        return new self("Invalid Offset in Limit Query, it has to be larger or equal to 0.");
     }
 
     /**
@@ -237,7 +228,7 @@ class DBALException extends \Exception
         return new self('Unknown column type "'.$name.'" requested. Any Doctrine type that you use has ' .
             'to be registered with \Doctrine\DBAL\Types\Type::addType(). You can get a list of all the ' .
             'known types with \Doctrine\DBAL\Types\Type::getTypesMap(). If this error occurs during database ' .
-            'introspection then you might have forgotten to register all database types for a Doctrine Type. Use ' .
+            'introspection then you might have forgot to register all database types for a Doctrine Type. Use ' .
             'AbstractPlatform#registerDoctrineTypeMapping() or have your custom types implement ' .
             'Type#getMappedDatabaseTypes(). If the type name is empty you might ' .
             'have a problem with the cache or forgot some mapping information.'

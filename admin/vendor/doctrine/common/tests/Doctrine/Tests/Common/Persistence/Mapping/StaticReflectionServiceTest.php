@@ -26,9 +26,6 @@ use Doctrine\Common\Persistence\Mapping\StaticReflectionService;
  */
 class StaticReflectionServiceTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var StaticReflectionService
-     */
     private $reflectionService;
 
     public function setUp()
@@ -43,8 +40,7 @@ class StaticReflectionServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testClassNamespaceName()
     {
-        $this->assertEquals('', $this->reflectionService->getClassNamespace(\stdClass::class));
-        $this->assertEquals(__NAMESPACE__, $this->reflectionService->getClassNamespace(__CLASS__));
+        $this->assertEquals("Doctrine\Tests\Common\Persistence\Mapping", $this->reflectionService->getClassNamespace(__CLASS__));
     }
 
     public function testGetParentClasses()

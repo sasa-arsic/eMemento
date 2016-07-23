@@ -29,7 +29,7 @@ namespace Doctrine\Common\Cache;
  * @author Roman Borschel <roman@code-factory.org>
  * @author Fabio B. Silva <fabio.bat.silva@gmail.com>
  */
-abstract class CacheProvider implements Cache, FlushableCache, ClearableCache, MultiGetCache, MultiPutCache
+abstract class CacheProvider implements Cache, FlushableCache, ClearableCache, MultiGetCache
 {
     const DOCTRINE_NAMESPACE_CACHEKEY = 'DoctrineNamespaceCacheKey[%s]';
 
@@ -84,13 +84,13 @@ abstract class CacheProvider implements Cache, FlushableCache, ClearableCache, M
     public function fetchMultiple(array $keys)
     {
         if (empty($keys)) {
-            return [];
+            return array();
         }
         
         // note: the array_combine() is in place to keep an association between our $keys and the $namespacedKeys
-        $namespacedKeys = array_combine($keys, array_map([$this, 'getNamespacedId'], $keys));
+        $namespacedKeys = array_combine($keys, array_map(array($this, 'getNamespacedId'), $keys));
         $items          = $this->doFetchMultiple($namespacedKeys);
-        $foundItems     = [];
+        $foundItems     = array();
 
         // no internal array function supports this sort of mapping: needs to be iterative
         // this filters and combines keys in one pass
@@ -101,19 +101,6 @@ abstract class CacheProvider implements Cache, FlushableCache, ClearableCache, M
         }
 
         return $foundItems;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function saveMultiple(array $keysAndValues, $lifetime = 0)
-    {
-        $namespacedKeysAndValues = [];
-        foreach ($keysAndValues as $key => $value) {
-            $namespacedKeysAndValues[$this->getNamespacedId($key)] = $value;
-        }
-
-        return $this->doSaveMultiple($namespacedKeysAndValues, $lifetime);
     }
 
     /**
@@ -222,7 +209,7 @@ abstract class CacheProvider implements Cache, FlushableCache, ClearableCache, M
      */
     protected function doFetchMultiple(array $keys)
     {
-        $returnValues = [];
+        $returnValues = array();
 
         foreach ($keys as $key) {
             if (false !== ($item = $this->doFetch($key)) || $this->doContains($key)) {
@@ -250,28 +237,6 @@ abstract class CacheProvider implements Cache, FlushableCache, ClearableCache, M
      * @return bool TRUE if a cache entry exists for the given cache id, FALSE otherwise.
      */
     abstract protected function doContains($id);
-
-    /**
-     * Default implementation of doSaveMultiple. Each driver that supports multi-put should override it.
-     *
-     * @param array $keysAndValues  Array of keys and values to save in cache
-     * @param int   $lifetime       The lifetime. If != 0, sets a specific lifetime for these
-     *                              cache entries (0 => infinite lifeTime).
-     *
-     * @return bool TRUE if the operation was successful, FALSE if it wasn't.
-     */
-    protected function doSaveMultiple(array $keysAndValues, $lifetime = 0)
-    {
-        $success = true;
-
-        foreach ($keysAndValues as $key => $value) {
-            if (!$this->doSave($key, $value, $lifetime)) {
-                $success = false;
-            }
-        }
-
-        return $success;
-    }
 
     /**
      * Puts data into the cache.

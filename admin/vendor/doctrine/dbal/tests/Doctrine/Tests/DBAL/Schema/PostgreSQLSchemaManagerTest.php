@@ -20,11 +20,13 @@ class PostgreSQLSchemaManagerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $driverMock = $this->createMock('Doctrine\DBAL\Driver');
-        $platform = $this->createMock('Doctrine\DBAL\Platforms\PostgreSqlPlatform');
-        $this->connection = $this->getMockBuilder('Doctrine\DBAL\Connection')
-            ->setConstructorArgs(array(array('platform' => $platform), $driverMock))
-            ->getMock();
+        $driverMock = $this->getMock('Doctrine\DBAL\Driver');
+        $platform = $this->getMock('Doctrine\DBAL\Platforms\PostgreSqlPlatform');
+        $this->connection = $this->getMock(
+            'Doctrine\DBAL\Connection',
+            array(),
+            array(array('platform' => $platform), $driverMock)
+        );
         $this->schemaManager = new PostgreSqlSchemaManager($this->connection, $platform);
     }
 

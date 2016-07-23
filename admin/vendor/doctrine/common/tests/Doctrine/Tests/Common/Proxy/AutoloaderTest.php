@@ -19,7 +19,6 @@
 
 namespace Doctrine\Tests\Common\Proxy;
 
-use Doctrine\Common\Proxy\Exception\InvalidArgumentException;
 use PHPUnit_Framework_TestCase;
 use Doctrine\Common\Proxy\Autoloader;
 
@@ -30,12 +29,11 @@ class AutoloaderTest extends PHPUnit_Framework_TestCase
 {
     public static function dataResolveFile()
     {
-        return [
-            ['/tmp', 'MyProxy', 'MyProxy\RealClass', '/tmp' . DIRECTORY_SEPARATOR . 'RealClass.php'],
-            ['/tmp', 'MyProxy', 'MyProxy\__CG__\RealClass', '/tmp' . DIRECTORY_SEPARATOR . '__CG__RealClass.php'],
-            ['/tmp', 'MyProxy\Subdir', 'MyProxy\Subdir\__CG__\RealClass', '/tmp' . DIRECTORY_SEPARATOR . '__CG__RealClass.php'],
-            ['/tmp', 'MyProxy', 'MyProxy\__CG__\Other\RealClass', '/tmp' . DIRECTORY_SEPARATOR . '__CG__OtherRealClass.php'],
-        ];
+        return array(
+            array('/tmp', 'MyProxy', 'MyProxy\__CG__\RealClass', '/tmp' . DIRECTORY_SEPARATOR . '__CG__RealClass.php'),
+            array('/tmp', 'MyProxy\Subdir', 'MyProxy\Subdir\__CG__\RealClass', '/tmp' . DIRECTORY_SEPARATOR . '__CG__RealClass.php'),
+            array('/tmp', 'MyProxy', 'MyProxy\__CG__\Other\RealClass', '/tmp' . DIRECTORY_SEPARATOR . '__CG__OtherRealClass.php'),
+        );
     }
 
     /**
@@ -63,8 +61,10 @@ class AutoloaderTest extends PHPUnit_Framework_TestCase
 
     public function testRegisterWithInvalidCallback()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid \$notFoundCallback given: must be a callable, "stdClass" given');
+        $this->setExpectedException(
+            'Doctrine\Common\Proxy\Exception\InvalidArgumentException',
+            'Invalid \$notFoundCallback given: must be a callable, "stdClass" given'
+        );
 
         Autoloader::register('', '', new \stdClass());
     }

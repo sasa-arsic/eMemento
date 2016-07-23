@@ -7,11 +7,13 @@ use Doctrine\DBAL\Event\Listeners\MysqlSessionInit;
 use Doctrine\DBAL\Events;
 use Doctrine\Tests\DbalTestCase;
 
+require_once __DIR__ . '/../../TestInit.php';
+
 class MysqlSessionInitTest extends DbalTestCase
 {
     public function testPostConnect()
     {
-        $connectionMock = $this->createMock('Doctrine\DBAL\Connection');
+        $connectionMock = $this->getMock('Doctrine\DBAL\Connection', array(), array(), '', false);
         $connectionMock->expects($this->once())
                        ->method('executeUpdate')
                        ->with($this->equalTo("SET NAMES foo COLLATE bar"));

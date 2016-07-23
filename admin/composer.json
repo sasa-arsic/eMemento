@@ -1,6 +1,6 @@
 {
     "require": {
-        "php": ">=5.3.3",
+        "php": "5.4.45",
         "silex/silex": "~1.2",
         "monolog/monolog": "~1.4,>=1.4.1",
         "doctrine/dbal": "~2.2",
@@ -16,6 +16,11 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-0": { "": "src/" }
-    }    
+    },
+    "config": {
+        "platform": {
+            "php" : "5.4.45"
+        }
+    }
 }
 

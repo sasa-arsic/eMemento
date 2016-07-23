@@ -19,6 +19,8 @@
 
 namespace Doctrine\Tests\DBAL\Schema;
 
+require_once __DIR__ . '/../../TestInit.php';
+
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ColumnDiff;
 use Doctrine\DBAL\Schema\Comparator;
@@ -570,7 +572,7 @@ class ComparatorTest extends \PHPUnit_Framework_TestCase
         $this->assertSchemaTableChangeCount($diff, 1, 0, 1);
     }
 
-    public function testSequencesCaseInsensitive()
+    public function testSequencesCaseInsenstive()
     {
         $schemaA = new Schema();
         $schemaA->createSequence('foo');
@@ -680,7 +682,7 @@ class ComparatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * You can easily have ambiguities in the column renaming. If these
+     * You can easily have ambiguouties in the column renaming. If these
      * are detected no renaming should take place, instead adding and dropping
      * should be used exclusively.
      *
@@ -700,7 +702,7 @@ class ComparatorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(1, count($tableDiff->addedColumns), "'baz' should be added, not created through renaming!");
         $this->assertArrayHasKey('baz', $tableDiff->addedColumns, "'baz' should be added, not created through renaming!");
-        $this->assertEquals(2, count($tableDiff->removedColumns), "'foo' and 'bar' should both be dropped, an ambiguity exists which one could be renamed to 'baz'.");
+        $this->assertEquals(2, count($tableDiff->removedColumns), "'foo' and 'bar' should both be dropped, an ambigouty exists which one could be renamed to 'baz'.");
         $this->assertArrayHasKey('foo', $tableDiff->removedColumns, "'foo' should be removed.");
         $this->assertArrayHasKey('bar', $tableDiff->removedColumns, "'bar' should be removed.");
         $this->assertEquals(0, count($tableDiff->renamedColumns), "no renamings should take place.");
@@ -840,7 +842,7 @@ class ComparatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @group DBAL-204
      */
-    public function testFqnSchemaComparison()
+    public function testFqnSchemaComparision()
     {
         $config = new SchemaConfig();
         $config->setName("foo");
@@ -887,7 +889,7 @@ class ComparatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @group DBAL-204
      */
-    public function testFqnSchemaComparisonDifferentSchemaNameButSameTableNoDiff()
+    public function testFqnSchemaComparisionDifferentSchemaNameButSameTableNoDiff()
     {
         $config = new SchemaConfig();
         $config->setName("foo");
@@ -907,7 +909,7 @@ class ComparatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @group DBAL-204
      */
-    public function testFqnSchemaComparisonNoSchemaSame()
+    public function testFqnSchemaComparisionNoSchemaSame()
     {
         $config = new SchemaConfig();
         $config->setName("foo");
@@ -926,7 +928,7 @@ class ComparatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @group DDC-1657
      */
-    public function testAutoIncrementSequences()
+    public function testAutoIncremenetSequences()
     {
         $oldSchema = new Schema();
         $table = $oldSchema->createTable("foo");
@@ -950,7 +952,7 @@ class ComparatorTest extends \PHPUnit_Framework_TestCase
      * Check that added autoincrement sequence is not populated in newSequences
      * @group DBAL-562
      */
-    public function testAutoIncrementNoSequences()
+    public function testAutoIncremenetNoSequences()
     {
         $oldSchema = new Schema();
         $table = $oldSchema->createTable("foo");
@@ -1131,12 +1133,8 @@ class ComparatorTest extends \PHPUnit_Framework_TestCase
     public function testComparesNamespaces()
     {
         $comparator = new Comparator();
-        $fromSchema = $this->getMockBuilder('Doctrine\DBAL\Schema\Schema')
-            ->setMethods(array('getNamespaces', 'hasNamespace'))
-            ->getMock();
-        $toSchema = $this->getMockBuilder('Doctrine\DBAL\Schema\Schema')
-            ->setMethods(array('getNamespaces', 'hasNamespace'))
-            ->getMock();
+        $fromSchema = $this->getMock('Doctrine\DBAL\Schema\Schema', array('getNamespaces', 'hasNamespace'));
+        $toSchema = $this->getMock('Doctrine\DBAL\Schema\Schema', array('getNamespaces', 'hasNamespace'));
 
         $fromSchema->expects($this->once())
             ->method('getNamespaces')
@@ -1235,45 +1233,5 @@ class ComparatorTest extends \PHPUnit_Framework_TestCase
 
             array('0', 'foo', false),
         );
-    }
-
-    public function testForeignKeyRemovalWithRenamedLocalColumn()
-    {
-        $fromSchema = new Schema( array(
-            'table1' => new Table('table1',
-                array(
-                    'id' => new Column('id', Type::getType('integer')),
-                )),
-            'table2' => new Table('table2',
-                array(
-                    'id' => new Column('id', Type::getType('integer')),
-                    'id_table1' => new Column('id_table1', Type::getType('integer'))
-                ),
-                array(),
-                array(
-                    new ForeignKeyConstraint(array('id_table1'), 'table1', array('id'), 'fk_table2_table1')
-                ))
-        ));
-        $toSchema = new Schema( array(
-            'table2' => new Table('table2',
-                array(
-                    'id' => new Column('id', Type::getType('integer')),
-                    'id_table3' => new Column('id_table3', Type::getType('integer'))
-                ),
-                array(),
-                array(
-                    new ForeignKeyConstraint(array('id_table3'), 'table3', array('id'), 'fk_table2_table3')
-                )),
-            'table3' => new Table('table3',
-                array(
-                    'id' => new Column('id', Type::getType('integer'))
-                ))
-        ));
-        $actual = Comparator::compareSchemas($fromSchema, $toSchema);
-        $this->assertArrayHasKey("table2", $actual->changedTables);
-        $this->assertCount(1, $actual->orphanedForeignKeys);
-        $this->assertEquals("fk_table2_table1", $actual->orphanedForeignKeys[0]->getName());
-        $this->assertCount(1, $actual->changedTables['table2']->addedForeignKeys, "FK to table3 should be added.");
-        $this->assertEquals("table3", $actual->changedTables['table2']->addedForeignKeys[0]->getForeignTableName());
     }
 }

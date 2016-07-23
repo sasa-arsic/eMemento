@@ -24,8 +24,6 @@ abstract class AbstractDriverTest extends DbalTestCase
     const EXCEPTION_TABLE_EXISTS = 'Doctrine\DBAL\Exception\TableExistsException';
     const EXCEPTION_TABLE_NOT_FOUND = 'Doctrine\DBAL\Exception\TableNotFoundException';
     const EXCEPTION_UNIQUE_CONSTRAINT_VIOLATION = 'Doctrine\DBAL\Exception\UniqueConstraintViolationException';
-    const EXCEPTION_DEADLOCK = 'Doctrine\DBAL\Exception\DeadlockException';
-    const EXCEPTION_LOCK_WAIT_TIMEOUT = 'Doctrine\DBAL\Exception\LockWaitTimeoutException';
 
     /**
      * The driver mock under test.
@@ -59,7 +57,7 @@ abstract class AbstractDriverTest extends DbalTestCase
             );
         }
 
-        $driverException = $this->createMock('Doctrine\DBAL\Driver\DriverException');
+        $driverException = $this->getMock('Doctrine\DBAL\Driver\DriverException');
 
         $driverException->expects($this->any())
             ->method('getErrorCode')
@@ -209,7 +207,7 @@ abstract class AbstractDriverTest extends DbalTestCase
 
         foreach ($this->getExceptionConversionData() as $convertedExceptionClassName => $errors) {
             foreach ($errors as $error) {
-                $driverException = $this->createMock('Doctrine\DBAL\Driver\DriverException');
+                $driverException = $this->getMock('Doctrine\DBAL\Driver\DriverException');
 
                 $driverException->expects($this->any())
                     ->method('getErrorCode')

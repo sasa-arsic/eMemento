@@ -4,6 +4,8 @@ namespace Doctrine\Tests\DBAL\Functional;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use PDO;
 
+require_once __DIR__ . '/../../TestInit.php';
+
 /**
  * @group DDC-217
  */
@@ -12,7 +14,7 @@ class ResultCacheTest extends \Doctrine\Tests\DbalFunctionalTestCase
     private $expectedResult = array(array('test_int' => 100, 'test_string' => 'foo'), array('test_int' => 200, 'test_string' => 'bar'), array('test_int' => 300, 'test_string' => 'baz'));
     private $sqlLogger;
 
-    protected function setUp()
+    public function setUp()
     {
         parent::setUp();
 
@@ -62,7 +64,7 @@ class ResultCacheTest extends \Doctrine\Tests\DbalFunctionalTestCase
         }
         $this->assertCacheNonCacheSelectSameFetchModeAreEqual($expectedResult, \PDO::FETCH_BOTH);
     }
-
+	
     public function testFetchColumn()
     {
         $expectedResult = array();

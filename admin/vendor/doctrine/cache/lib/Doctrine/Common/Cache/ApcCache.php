@@ -22,14 +22,13 @@ namespace Doctrine\Common\Cache;
 /**
  * APC cache provider.
  *
- * @link       www.doctrine-project.org
- * @deprecated since version 1.6, use ApcuCache instead
- * @since      2.0
- * @author     Benjamin Eberlei <kontakt@beberlei.de>
- * @author     Guilherme Blanco <guilhermeblanco@hotmail.com>
- * @author     Jonathan Wage <jonwage@gmail.com>
- * @author     Roman Borschel <roman@code-factory.org>
- * @author     David Abdemoulaie <dave@hobodave.com>
+ * @link   www.doctrine-project.org
+ * @since  2.0
+ * @author Benjamin Eberlei <kontakt@beberlei.de>
+ * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
+ * @author Jonathan Wage <jonwage@gmail.com>
+ * @author Roman Borschel <roman@code-factory.org>
+ * @author David Abdemoulaie <dave@hobodave.com>
  */
 class ApcCache extends CacheProvider
 {
@@ -85,16 +84,6 @@ class ApcCache extends CacheProvider
     /**
      * {@inheritdoc}
      */
-    protected function doSaveMultiple(array $keysAndValues, $lifetime = 0)
-    {
-        $result = apc_store($keysAndValues, null, $lifetime);
-
-        return empty($result);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function doGetStats()
     {
         $info = apc_cache_info('', true);
@@ -107,12 +96,12 @@ class ApcCache extends CacheProvider
             $info['start_time'] = isset($info['start_time']) ? $info['start_time'] : $info['stime'];
         }
 
-        return [
+        return array(
             Cache::STATS_HITS             => $info['num_hits'],
             Cache::STATS_MISSES           => $info['num_misses'],
             Cache::STATS_UPTIME           => $info['start_time'],
             Cache::STATS_MEMORY_USAGE     => $info['mem_size'],
             Cache::STATS_MEMORY_AVAILABLE => $sma['avail_mem'],
-        ];
+        );
     }
 }

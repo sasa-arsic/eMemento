@@ -35,13 +35,29 @@ class RoleVoter implements VoterInterface
     /**
      * {@inheritdoc}
      */
-    public function vote(TokenInterface $token, $subject, array $attributes)
+    public function supportsAttribute($attribute)
+    {
+        return 0 === strpos($attribute, $this->prefix);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsClass($class)
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function vote(TokenInterface $token, $object, array $attributes)
     {
         $result = VoterInterface::ACCESS_ABSTAIN;
         $roles = $this->extractRoles($token);
 
         foreach ($attributes as $attribute) {
-            if (0 !== strpos($attribute, $this->prefix)) {
+            if (!$this->supportsAttribute($attribute)) {
                 continue;
             }
 
