@@ -1,3 +1,13 @@
 
 config.init
 config.ini
+rest.paw
+
+admin/composer.json
+admin/composer.lock
+admin/composer.phar
+admin/console
+
+admin/gen/
+admin/vendor/
+admin/src/
