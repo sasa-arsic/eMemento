@@ -25,7 +25,7 @@
 
 		$quizz = isset($_GET['quizz']) ? intval($_GET['quizz']) : 1;
 
-		$stmt = _prepare("SELECT s.score, s.time FROM score s LEFT JOIN installation i ON i.id = s.installation_id WHERE i.deviceToken = ? AND s.quizz_id = ?");
+		$stmt = _prepare("SELECT s.score, s.time FROM score s LEFT JOIN installation i ON i.id = s.installation_id WHERE i.deviceToken = ? AND s.quizz_id = ? ORDER BY s.time DESC");
 
 		if (!@$stmt->bind_param('si', $_GET['deviceToken'], $quizz)) {
 			_die("Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error);

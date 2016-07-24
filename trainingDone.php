@@ -1,5 +1,12 @@
 <?php
 	
+	// This service takes care of marking knowledge elements learnt
+	// for a specific deviceToken
+	
+	// Fields required:
+	// ids 				Comma sepearated ids of knowledge elements (got by notificationQuizz)
+	// deviceToken		iOS device token
+
 	include_once('api.header.php');
 
 	_requireFields('post', array('ids', 'deviceToken'));
